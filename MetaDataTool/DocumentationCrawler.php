@@ -103,8 +103,9 @@ class DocumentationCrawler
             $name = trim($node->filterXpath('//td[2]')->text());
             $type = trim($node->filterXpath('//td[5]')->text());
             $description = trim($node->filterXpath($hasWebhookColumn ? '//td[7]' : '//td[6]')->text());
+            $primaryKey = $node->filterXpath('//td[2]/img[@title="Key"]')->count() === 1;
 
-            return new Property($name, $type, $description);
+            return new Property($name, $type, $description, $primaryKey);
         };
     }
 
