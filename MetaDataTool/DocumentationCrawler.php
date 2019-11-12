@@ -107,16 +107,18 @@ class DocumentationCrawler
             $primaryKey = $node->filterXpath('//td[2]/img[@title="Key"]')->count() === 1;
 
             $httpMethods = HttpMethodMask::none()->addGet();
-
             $class = (string) $node->attr('class');
-            if (strpos($class, 'hidedelete') === false) {
-                $httpMethods->addDelete();
+            if ($name === 'ID') {
+                $httpMethods = $httpMethods->addDelete();
             }
-            if (strpos($class, 'hideput') === false) {
-                $httpMethods->addPut();
+            if (strpos($class, 'hideput') === false && strpos($class, 'showget') === false) {
+                $httpMethods = $httpMethods->addPut();
             }
-            if (strpos($class, 'showget') === false) {
-                $httpMethods->addPost();
+            if (strpos($class, 'hidepost') === false && strpos($class, 'showget') === false) {
+                $httpMethods = $httpMethods->addPost();
+            }
+            if ($name === 'ID') {
+                $httpMethods = HttpMethodMask::all();
             }
 
             return new Property($name, $type, $description, $primaryKey, $httpMethods);
