@@ -14,13 +14,21 @@ class Property implements JsonSerializable
     private $description;
     /** @var bool */
     private $primaryKey;
+    /** @var HttpMethodMask */
+    private $supportedHttpMethods;
 
-    public function __construct(string $name, string $type, string $description, bool $primaryKey = false)
-    {
+    public function __construct(
+        string $name,
+        string $type,
+        string $description,
+        bool $primaryKey = false,
+        HttpMethodMask $supportedHttpMethods
+    ) {
         $this->name = $name;
         $this->type = $type;
         $this->description = $description;
         $this->primaryKey = $primaryKey;
+        $this->supportedHttpMethods = $supportedHttpMethods;
     }
 
     public function getName(): string
@@ -50,6 +58,7 @@ class Property implements JsonSerializable
             'type' => $this->type,
             'description' => $this->description,
             'primaryKey' => $this->primaryKey,
+            'supportedMethods' => $this->supportedHttpMethods,
         ];
     }
 }

@@ -9,6 +9,8 @@ class Endpoint implements JsonSerializable
     /** @var string */
     private $endpoint;
     /** @var string */
+    private $documentation;
+    /** @var string */
     private $scope;
     /** @var string */
     private $uri;
@@ -21,6 +23,7 @@ class Endpoint implements JsonSerializable
 
     public function __construct(
         string $endpoint,
+        string $documentation,
         string $scope,
         string $uri,
         HttpMethodMask $supportedHttpMethods,
@@ -28,6 +31,7 @@ class Endpoint implements JsonSerializable
         PropertyCollection $properties
     ) {
         $this->endpoint = $endpoint;
+        $this->documentation = $documentation;
         $this->scope = $scope;
         $this->uri = $uri;
         $this->supportedHttpMethods = $supportedHttpMethods;
@@ -70,6 +74,7 @@ class Endpoint implements JsonSerializable
     {
         return [
             'endpoint' => $this->endpoint,
+            'documentation' => $this->documentation,
             'scope' => $this->scope,
             'uri' => $this->uri,
             'supportedMethods' => $this->supportedHttpMethods,

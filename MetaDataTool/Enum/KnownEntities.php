@@ -72,7 +72,6 @@ class KnownEntities extends Enum
     private const InventoryWarehouseTransferLines = 'InventoryWarehouseTransferLines';
     private const InventoryWarehouseTransfers = 'InventoryWarehouseTransfers';
     private const InventoryWarehouses = 'InventoryWarehouses';
-//    private const LogisticsItemExtraField = 'LogisticsItemExtraField';
     private const LogisticsItemGroups = 'LogisticsItemGroups';
     private const LogisticsItems = 'LogisticsItems';
 //    private const LogisticItemVersions = 'LogisticItemVersions';
@@ -159,7 +158,6 @@ class KnownEntities extends Enum
     private const SystemSystemDivisions = 'SystemSystemDivisions';
     private const SystemSystemMe = 'SystemSystemMe';
     private const UsersUserRoles = 'UsersUserRoles';
-//    private const UserRolesPerDivision = 'UserRolesPerDivision';
     private const UsersUsers = 'UsersUsers';
     private const VatVatCodes = 'VatVATCodes';
     private const VatVatPercentages = 'VatVatPercentages';
