@@ -12,6 +12,7 @@ class HttpMethodMask implements JsonSerializable
     private const POST = 2;
     private const PUT = 4;
     private const DELETE = 8;
+    private const ALL = 15;
 
     /** @var int */
     private $mask;
@@ -24,6 +25,11 @@ class HttpMethodMask implements JsonSerializable
     public static function none(): self
     {
         return new static(self::NONE);
+    }
+
+    public static function all(): self
+    {
+        return new static(self::ALL);
     }
 
     public function addGet(): self
