@@ -35,6 +35,7 @@ class DocumentationCrawler
         }
 
         while (count($this->toVisitPages)) {
+            /** @var string $page */
             $page = array_shift($this->toVisitPages);
 
             if (in_array($page, $this->visitedPages, true)) {
@@ -77,7 +78,7 @@ class DocumentationCrawler
         $properties = $this->domCrawler->filterXpath(self::ATTRIBUTE_ROWS_XPATH)
             ->each($this->getPropertyRowParser($hasWebhookColumn));
 
-        return new Endpoint($endpoint, $scope, $uri, $httpMethods, $example, new PropertyCollection(...$properties));
+        return new Endpoint($endpoint, $url, $scope, $uri, $httpMethods, $example, new PropertyCollection(...$properties));
     }
 
     private function fetchHtmlFromUrl(string $url): string
@@ -105,7 +106,20 @@ class DocumentationCrawler
             $description = trim($node->filterXpath($hasWebhookColumn ? '//td[7]' : '//td[6]')->text());
             $primaryKey = $node->filterXpath('//td[2]/img[@title="Key"]')->count() === 1;
 
-            return new Property($name, $type, $description, $primaryKey);
+            $httpMethods = HttpMethodMask::none()->addGet();
+
+            $class = (string) $node->attr('class');
+            if (strpos($class, 'hidedelete') === false) {
+                $httpMethods->addDelete();
+            }
+            if (strpos($class, 'hideput') === false) {
+                $httpMethods->addPut();
+            }
+            if (strpos($class, 'showget') === false) {
+                $httpMethods->addPost();
+            }
+
+            return new Property($name, $type, $description, $primaryKey, $httpMethods);
         };
     }
 
