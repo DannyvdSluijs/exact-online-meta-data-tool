@@ -20,17 +20,9 @@ class JsonFileWriter
         $this->ensureDirectoryAvailability($path);
     }
 
-    public function write(EndpointCollection $endpointCollection): void
+    public function write(EndpointCollection $endpoints): void
     {
-        /** @var Endpoint $endpoint */
-        foreach ($endpointCollection as $endpoint) {
-            $subPath = str_replace(['/api/v1/{division}', '/api/v1/current'], '', $endpoint->getUri());
-            $subPath = ucwords($subPath, '/');
-            $filename = $this->path . $subPath . '.json';
-            $this->ensureDirectoryAvailability(dirname($filename));
-
-            file_put_contents($filename, json_encode($endpoint, JSON_PRETTY_PRINT));
-        }
+        file_put_contents($this->path . '/meta-data.json', json_encode($endpoints, JSON_PRETTY_PRINT));
     }
 
     private function ensureDirectoryAvailability(string $path): void
