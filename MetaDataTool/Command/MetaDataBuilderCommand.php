@@ -6,6 +6,7 @@ use MetaDataTool\JsonFileWriter;
 use MetaDataTool\DocumentationCrawler;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class MetaDataBuilderCommand extends Command
@@ -19,15 +20,26 @@ class MetaDataBuilderCommand extends Command
             ->setHelp(<<<'HELP'
                 Scans the online ExactOnline documentation allowing to discover the API entities.....
 HELP
-            );
+            )->setDefinition([
+                new InputOption('destination', 'd', InputOption::VALUE_REQUIRED, 'The destination directory', getcwd()),
+            ]);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $endpoints = (new DocumentationCrawler())->run();
-
-        (new JsonFileWriter('./tmp'))->write($endpoints);
+        $writer = new JsonFileWriter($this->getFullDestinationPath($input->getOption('destination')));
+        $writer->write($endpoints);
 
         return 0;
+    }
+
+    private function getFullDestinationPath(string $destination): string
+    {
+        if (strpos($destination, DIRECTORY_SEPARATOR) === 0) {
+            return $destination;
+        }
+
+        return getcwd() . DIRECTORY_SEPARATOR . $destination;
     }
 }

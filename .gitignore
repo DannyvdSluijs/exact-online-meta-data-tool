@@ -1,2 +1,4 @@
 /vendor/
 /.idea/
+/meta-data.json
+/.phpunit.result.cache
