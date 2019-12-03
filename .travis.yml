@@ -1,0 +1,28 @@
+language: php
+
+before_script:
+  - curl -s http://getcomposer.org/installer | php
+  - php composer.phar install
+
+php:
+  - 7.2
+  - 7.3
+  - 7.4
+
+matrix:
+  allow_failures:
+    - php: nightly
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+script:
+  - ./travis.sh
+
+after_script:
+  - ./travis-after.sh
+
+notifications:
+  email:
+    - danny.vandersluijs@icloud.com

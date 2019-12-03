@@ -29,7 +29,10 @@
         }
     },
     "scripts": {
-        "phpunit": "./vendor/bin/phpunit",
+        "phpunit": [
+            "./vendor/bin/phpunit --dump-xdebug-filter build/xdebug-filter.php",
+            "./vendor/bin/phpunit --prepend build/xdebug-filter.php --coverage-clover=coverage.clover"
+        ],
         "phpcs": "./vendor/bin/phpcs --standard=PSR2 ./MetaDataTool/",
         "phpcbf": "./vendor/bin/phpcbf --standard=PSR2 ./MetaDataTool/",
         "phpstan": "./vendor/bin/phpstan analyse",
