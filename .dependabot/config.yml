@@ -1,5 +1,5 @@
 version: 1
 update_configs:
   - package_manager: "php:composer"
-    directory: "/composer/helpers"
+    directory: ""
     update_schedule: "live"
