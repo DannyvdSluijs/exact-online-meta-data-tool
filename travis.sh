@@ -1,3 +1,3 @@
 #!/bin/bash
-mkdir tools build;
-composer test;
+mkdir build;
+composer phpunit;
