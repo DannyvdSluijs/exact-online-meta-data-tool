@@ -18,12 +18,12 @@ class PropertyCollection implements IteratorAggregate, JsonSerializable
         $this->properties = $properties;
     }
 
-    public function getIterator()
+    public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->properties);
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->properties;
     }

@@ -30,7 +30,11 @@ HELP
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $endpoints = (new DocumentationCrawler())->run();
-        $writer = new JsonFileWriter($this->getFullDestinationPath($input->getOption('destination')));
+        $destination = $input->getOption('destination');
+        if (! is_string($destination)) {
+            throw new \RuntimeException('Invalid input for the destination option');
+        }
+        $writer = new JsonFileWriter($this->getFullDestinationPath($destination));
         $writer->write($endpoints);
 
         return 0;

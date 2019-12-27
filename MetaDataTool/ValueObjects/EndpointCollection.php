@@ -23,7 +23,7 @@ class EndpointCollection implements IteratorAggregate, JsonSerializable
         $this->endpoints[] = $resource;
     }
 
-    public function getIterator()
+    public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->endpoints);
     }
