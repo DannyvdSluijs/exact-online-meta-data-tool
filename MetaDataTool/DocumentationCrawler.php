@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace MetaDataTool;
 
@@ -78,7 +80,15 @@ class DocumentationCrawler
         $properties = $this->domCrawler->filterXpath(self::ATTRIBUTE_ROWS_XPATH)
             ->each($this->getPropertyRowParser($hasWebhookColumn));
 
-        return new Endpoint($endpoint, $url, $scope, $uri, $httpMethods, $example, new PropertyCollection(...$properties));
+        return new Endpoint(
+            $endpoint,
+            $url,
+            $scope,
+            $uri,
+            $httpMethods,
+            $example,
+            new PropertyCollection(...$properties)
+        );
     }
 
     private function fetchHtmlFromUrl(string $url): string
