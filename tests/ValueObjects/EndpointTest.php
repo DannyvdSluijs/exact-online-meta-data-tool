@@ -32,4 +32,33 @@ class EndpointTest extends TestCase
         self::assertSame($exampleUrl, $endpoint->getExample());
         self::assertEquals($properties, $endpoint->getProperties());
     }
+
+    /**
+     * @covers \MetaDataTool\ValueObjects\Endpoint
+     */
+    public function testPropertyCanBeCorrectlySerialised(): void
+    {
+        $endpoint = new Endpoint(
+            $endpointUrl = $this->faker()->url,
+            $documentationUrl = $this->faker()->url,
+            $scope = $this->faker()->word,
+            $url = $this->faker()->url,
+            $methods = HttpMethodMask::all(),
+            $exampleUrl = $this->faker()->url,
+            $properties = new PropertyCollection()
+        );
+
+        self::assertSame(
+            json_encode([
+                'endpoint' => $endpointUrl,
+                'documentation' => $documentationUrl,
+                'scope' => $scope,
+                'uri' => $url,
+                'supportedMethods' => $methods,
+                'example' => $exampleUrl,
+                'properties' => $properties,
+            ]),
+            json_encode($endpoint)
+        );
+    }
 }

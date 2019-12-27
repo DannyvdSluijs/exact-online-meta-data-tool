@@ -6,32 +6,46 @@ use MetaDataTool\ValueObjects\HttpMethodMask;
 use MetaDataTool\ValueObjects\Property;
 use MetaDataTool\Tests\TestCase;
 
+/**
+ * @coversDefaultClass \MetaDataTool\ValueObjects\Property
+ */
 class PropertyTest extends TestCase
 {
-    /**
-     * @covers \MetaDataTool\ValueObjects\Property
-     * @covers \MetaDataTool\ValueObjects\HttpMethodMask
-     */
     public function testValueObjectHoldsAttributes(): void
     {
-        $property = new Property('name', 'type', 'description', true, HttpMethodMask::all());
+        $property = new Property(
+            $name = $this->faker()->name,
+            $type = $this->faker()->randomElement(['string', 'int', 'bool']),
+            $description = $this->faker()->words(6, true),
+            true,
+            $methods = HttpMethodMask::all()
+        );
 
-        self::assertSame('name', $property->getName());
-        self::assertSame('type', $property->getType());
-        self::assertSame('description', $property->getDescription());
+        self::assertEquals($name, $property->getName());
+        self::assertEquals($type, $property->getType());
+        self::assertEquals($description, $property->getDescription());
         self::assertTrue($property->isPrimaryKey());
+        self::assertSame($methods, $property->getSupportedHttpMethods());
     }
 
-    /**
-     * @covers \MetaDataTool\ValueObjects\Property
-     * @covers \MetaDataTool\ValueObjects\HttpMethodMask
-     */
     public function testPropertyCanBeCorrectlySerialised(): void
     {
-        $property = new Property('name', 'type', 'description', true, HttpMethodMask::all());
+        $property = new Property(
+            $name = $this->faker()->name,
+            $type = $this->faker()->randomElement(['string', 'int', 'bool']),
+            $description = $this->faker()->words(6, true),
+            true,
+            $methods = HttpMethodMask::all()
+        );
 
-        self::assertJsonStringEqualsJsonString(
-            '{"name":"name","type":"type","description":"description","primaryKey":true,"supportedMethods":{"get":true,"post":true,"put":true,"delete":true} }',
+        self::assertSame(
+            json_encode([
+                'name' => $name,
+                'type' => $type,
+                'description' => $description,
+                'primaryKey' => true,
+                'supportedMethods' => $methods,
+            ]),
             json_encode($property)
         );
     }
