@@ -38,7 +38,7 @@
     "scripts": {
         "phpunit": [
             "./vendor/bin/phpunit --dump-xdebug-filter build/xdebug-filter.php",
-            "./vendor/bin/phpunit --prepend build/xdebug-filter.php --coverage-clover=coverage.clover"
+            "./vendor/bin/phpunit --prepend build/xdebug-filter.php"
         ],
         "phpcs": "./vendor/bin/phpcs --standard=PSR12 ./MetaDataTool/",
         "phpcbf": "./vendor/bin/phpcbf --standard=PSR12 ./MetaDataTool/",
