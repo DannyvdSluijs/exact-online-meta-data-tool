@@ -1,28 +1,22 @@
 language: php
-
-before_script:
-  - curl -s http://getcomposer.org/installer | php
-  - php composer.phar install
-
 php:
   - 7.2
   - 7.3
   - 7.4
+  - nightly
 
 matrix:
   allow_failures:
     - php: nightly
 
-cache:
-  directories:
-    - $HOME/.composer/cache
-
+install:
+  - curl -s http://getcomposer.org/installer | php
+  - php composer.phar install --dev --no-interaction
 script:
-  - ./travis.sh
-
-after_script:
-  - ./travis-after.sh
-
+  - mkdir -p build/logs;
+  - composer phpunit
+after_success:
+  - travis_retry php vendor/bin/php-coveralls -v
 notifications:
   email:
     - danny.vandersluijs@icloud.com
