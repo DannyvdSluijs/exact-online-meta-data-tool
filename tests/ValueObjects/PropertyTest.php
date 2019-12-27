@@ -4,7 +4,7 @@ namespace MetaDataTool\Tests\ValueObjects;
 
 use MetaDataTool\ValueObjects\HttpMethodMask;
 use MetaDataTool\ValueObjects\Property;
-use PHPUnit\Framework\TestCase;
+use MetaDataTool\Tests\TestCase;
 
 class PropertyTest extends TestCase
 {

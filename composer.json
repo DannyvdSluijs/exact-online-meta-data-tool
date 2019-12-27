@@ -21,11 +21,17 @@
         "phpstan/phpstan": "^0.12",
         "phpstan/phpstan-strict-rules": "^0.12",
         "squizlabs/php_codesniffer": "^3.5",
-        "phpunit/phpunit": "^8.5"
+        "phpunit/phpunit": "^8.5",
+        "fzaninotto/faker": "^1.9"
     },
     "autoload": {
         "psr-4": {
             "MetaDataTool\\": "MetaDataTool/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MetaDataTool\\Tests\\": "tests/"
         }
     },
     "scripts": {

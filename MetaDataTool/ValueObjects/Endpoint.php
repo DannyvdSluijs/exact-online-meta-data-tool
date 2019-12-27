@@ -46,6 +46,11 @@ class Endpoint implements JsonSerializable
         return $this->endpoint;
     }
 
+    public function getDocumentation(): string
+    {
+        return $this->documentation;
+    }
+
     public function getScope(): string
     {
         return $this->scope;
@@ -65,7 +70,6 @@ class Endpoint implements JsonSerializable
     {
         return $this->example;
     }
-
 
     public function getProperties(): PropertyCollection
     {
