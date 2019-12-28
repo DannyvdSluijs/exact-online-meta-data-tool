@@ -40,8 +40,8 @@
             "./vendor/bin/phpunit --dump-xdebug-filter build/xdebug-filter.php",
             "./vendor/bin/phpunit --prepend build/xdebug-filter.php"
         ],
-        "phpcs": "./vendor/bin/phpcs --standard=PSR12 ./MetaDataTool/",
-        "phpcbf": "./vendor/bin/phpcbf --standard=PSR12 ./MetaDataTool/",
+        "phpcs": "./vendor/bin/phpcs --standard=PSR12 ./MetaDataTool/ ./tests/",
+        "phpcbf": "./vendor/bin/phpcbf --standard=PSR12 ./MetaDataTool/ ./tests/",
         "phpstan": "./vendor/bin/phpstan analyse",
         "build-meta-data": ["./exact-online-meta-data-tool run --destination=."]
     }

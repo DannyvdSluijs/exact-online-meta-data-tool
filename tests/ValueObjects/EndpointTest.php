@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace MetaDataTool\Tests\ValueObjects;
 
@@ -7,11 +9,11 @@ use MetaDataTool\ValueObjects\HttpMethodMask;
 use MetaDataTool\ValueObjects\PropertyCollection;
 use MetaDataTool\Tests\TestCase;
 
+/**
+ * @coversDefaultClass \MetaDataTool\ValueObjects\Endpoint
+ */
 class EndpointTest extends TestCase
 {
-    /**
-     * @covers \MetaDataTool\ValueObjects\Endpoint
-     */
     public function testValueObjectHoldsAttributes(): void
     {
         $endpoint = new Endpoint(
@@ -33,9 +35,6 @@ class EndpointTest extends TestCase
         self::assertEquals($properties, $endpoint->getProperties());
     }
 
-    /**
-     * @covers \MetaDataTool\ValueObjects\Endpoint
-     */
     public function testPropertyCanBeCorrectlySerialised(): void
     {
         $endpoint = new Endpoint(

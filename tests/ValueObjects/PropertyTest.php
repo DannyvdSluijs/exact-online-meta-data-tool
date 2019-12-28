@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace MetaDataTool\Tests\ValueObjects;
 
@@ -49,5 +51,4 @@ class PropertyTest extends TestCase
             json_encode($property)
         );
     }
-
 }
