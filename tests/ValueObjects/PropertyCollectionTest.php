@@ -21,7 +21,7 @@ class PropertyCollectionTest extends TestCase
     }
 
     /**
-     * @covers \MetaDataTool\ValueObjects\EndpointCollection
+     * @covers \MetaDataTool\ValueObjects\PropertyCollection
      */
     public function testObjectIsIterable(): void
     {
@@ -29,7 +29,7 @@ class PropertyCollectionTest extends TestCase
     }
 
     /**
-     * @covers \MetaDataTool\ValueObjects\EndpointCollection
+     * @covers \MetaDataTool\ValueObjects\PropertyCollection
      */
     public function testCollectionCanBeCorrectlySerialised(): void
     {
