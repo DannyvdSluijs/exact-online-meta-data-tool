@@ -10,17 +10,20 @@ use MetaDataTool\ValueObjects\EndpointCollection;
 use MetaDataTool\ValueObjects\HttpMethodMask;
 use MetaDataTool\ValueObjects\PropertyCollection;
 
-/**
- * @coversDefaultClass \MetaDataTool\ValueObjects\Property
- */
 class EndpointCollectionTest extends TestCase
 {
+    /**
+     * @covers \MetaDataTool\ValueObjects\EndpointCollection
+     */
     public function testConstructorIsProtectedAgainstWrongType(): void
     {
         $this->expectException(\TypeError::class);
         new EndpointCollection(new \stdClass());
     }
 
+    /**
+     * @covers \MetaDataTool\ValueObjects\EndpointCollection
+     */
     public function testCanAddEndpointToCollection(): void
     {
         $collection = new EndpointCollection();
@@ -39,11 +42,17 @@ class EndpointCollectionTest extends TestCase
         self::assertContains($endpoint, $collection);
     }
 
+    /**
+     * @covers \MetaDataTool\ValueObjects\EndpointCollection
+     */
     public function testObjectIsIterable(): void
     {
         self::assertIsIterable(new EndpointCollection());
     }
 
+    /**
+     * @covers \MetaDataTool\ValueObjects\EndpointCollection
+     */
     public function testCollectionCanBeCorrectlySerialised(): void
     {
         $endpoint = new Endpoint(

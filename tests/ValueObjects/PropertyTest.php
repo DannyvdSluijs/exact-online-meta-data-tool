@@ -8,11 +8,11 @@ use MetaDataTool\ValueObjects\HttpMethodMask;
 use MetaDataTool\ValueObjects\Property;
 use MetaDataTool\Tests\TestCase;
 
-/**
- * @coversDefaultClass \MetaDataTool\ValueObjects\Property
- */
 class PropertyTest extends TestCase
 {
+    /**
+     * @covers \MetaDataTool\ValueObjects\Property
+     */
     public function testValueObjectHoldsAttributes(): void
     {
         $property = new Property(
@@ -30,6 +30,9 @@ class PropertyTest extends TestCase
         self::assertSame($methods, $property->getSupportedHttpMethods());
     }
 
+    /**
+     * @covers \MetaDataTool\ValueObjects\Property
+     */
     public function testPropertyCanBeCorrectlySerialised(): void
     {
         $property = new Property(
