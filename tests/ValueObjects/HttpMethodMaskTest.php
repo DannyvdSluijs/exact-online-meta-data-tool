@@ -74,7 +74,7 @@ class HttpMethodMaskTest extends TestCase
     }
 
     /**
-     * @covers \MetaDataTool\ValueObjects\Endpoint
+     * @covers \MetaDataTool\ValueObjects\HttpMethodMask
      */
     public function testPropertyCanBeCorrectlySerialised(): void
     {
