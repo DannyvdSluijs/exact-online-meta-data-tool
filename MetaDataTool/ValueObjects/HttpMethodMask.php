@@ -25,12 +25,12 @@ class HttpMethodMask implements JsonSerializable
 
     public static function none(): self
     {
-        return new static(self::NONE);
+        return new self(self::NONE);
     }
 
     public static function all(): self
     {
-        return new static(self::ALL);
+        return new self(self::ALL);
     }
 
     public function addGet(): self
@@ -78,7 +78,7 @@ class HttpMethodMask implements JsonSerializable
         return ($this->mask & $support) > 0;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'get' => $this->supportsGet(),

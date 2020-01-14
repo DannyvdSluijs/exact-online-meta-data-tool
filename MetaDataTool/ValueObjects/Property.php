@@ -53,7 +53,12 @@ class Property implements JsonSerializable
         return $this->primaryKey;
     }
 
-    public function jsonSerialize()
+    public function getSupportedHttpMethods(): HttpMethodMask
+    {
+        return $this->supportedHttpMethods;
+    }
+
+    public function jsonSerialize(): array
     {
         return [
             'name' => $this->name,
