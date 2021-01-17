@@ -7,7 +7,6 @@ cache:
 matrix:
   include:
     # Latest dependencies with all PHP versions
-    - php: 7.2
     - php: 7.3
       env:
         PHP_INI='xdebug.mode=coverage'
