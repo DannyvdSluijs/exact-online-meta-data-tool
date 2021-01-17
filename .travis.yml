@@ -9,7 +9,11 @@ matrix:
     # Latest dependencies with all PHP versions
     - php: 7.2
     - php: 7.3
+      env:
+        PHP_INI='xdebug.mode=coverage'
     - php: 7.4
+      env:
+        PHP_INI='xdebug.mode=coverage'
     - php: 8.0
       # Ignore the platform requirements for the upcoming PHP version
     - php: nightly
@@ -25,7 +29,7 @@ branches:
 
 install:
   - curl -s http://getcomposer.org/installer | php
-  - php composer.phar install --dev --no-interaction $COMPOSER_FLAGS
+  - php composer.phar install --no-interaction $COMPOSER_FLAGS
 
 script:
   - mkdir -p build/logs;
