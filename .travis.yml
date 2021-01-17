@@ -10,13 +10,18 @@ matrix:
     - php: 7.2
     - php: 7.3
     - php: 7.4
-
+    - php: 8.0
       # Ignore the platform requirements for the upcoming PHP version
     - php: nightly
       env: COMPOSER_FLAGS='--ignore-platform-reqs'
   allow_failures:
     - php: nightly
   fast_finish: true
+
+branches:
+  only:
+    - master
+    - develop
 
 install:
   - curl -s http://getcomposer.org/installer | php
