@@ -30,6 +30,7 @@ branches:
 install:
   - curl -s http://getcomposer.org/installer | php
   - php composer.phar install --no-interaction $COMPOSER_FLAGS
+  - if [[ -n $PHP_INI ]]; then echo $PHP_INI >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini; fi
 
 script:
   - mkdir -p build/logs;
