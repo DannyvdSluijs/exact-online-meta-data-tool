@@ -1,4 +1,6 @@
-[![Build Status](https://api.travis-ci.com/DannyvdSluijs/exact-online-meta-data-tool.svg?branch=master)](https://travis-ci.com/DannyvdSluijs/exact-online-meta-data-tool) [![Coverage Status](https://coveralls.io/repos/github/DannyvdSluijs/exact-online-meta-data-tool/badge.svg)](https://coveralls.io/github/DannyvdSluijs/exact-online-meta-data-tool)
+![Build](https://github.com/DannyvdSluijs/exact-online-meta-data-tool/workflows/Build/badge.svg?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/DannyvdSluijs/exact-online-meta-data-tool/badge.svg?branch=master)](https://coveralls.io/github/DannyvdSluijs/exact-online-meta-data-tool?branch=master)
+
 
 # exact-online-meta-data-tool
 A scanner tool to scan through the ExactOnline API documentation and 
