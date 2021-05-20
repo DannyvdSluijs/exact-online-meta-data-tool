@@ -83,10 +83,6 @@ jobs:
         run: composer unit-tests
         continue-on-error: ${{ matrix.allow_fail }}
 
-      - name: Run integration tests
-        run: composer integration-tests
-        continue-on-error: ${{ matrix.allow_fail }}
-
       - name: Upload test coverage
         run: php vendor/bin/php-coveralls -vvv
         env:
