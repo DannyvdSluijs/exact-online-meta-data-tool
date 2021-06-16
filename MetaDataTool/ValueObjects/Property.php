@@ -23,7 +23,7 @@ class Property implements JsonSerializable
         string $name,
         string $type,
         string $description,
-        bool $primaryKey = false,
+        bool $primaryKey,
         HttpMethodMask $supportedHttpMethods
     ) {
         $this->name = $name;
