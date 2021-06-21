@@ -33,14 +33,14 @@ class DocumentationCrawler
         $this->endpoints = new EndpointCollection();
 
         foreach (KnownEntities::keys() as $entity) {
-            $this->toVisitPages[] = strtolower(self::BASE_URL . 'HlpRestAPIResourcesDetails.aspx?name=' . $entity);
+            $this->toVisitPages[] = self::BASE_URL . 'HlpRestAPIResourcesDetails.aspx?name=' . $entity;
         }
 
         while (count($this->toVisitPages)) {
             /** @var string $page */
             $page = array_shift($this->toVisitPages);
 
-            if (in_array($page, $this->visitedPages, true)) {
+            if (in_array(strtolower($page), $this->visitedPages, true)) {
                 continue;
             }
 
@@ -95,7 +95,7 @@ class DocumentationCrawler
     {
         printf('Fetching "%s"' . PHP_EOL, $url);
         $html = file_get_contents($url);
-        $this->visitedPages[] = $url;
+        $this->visitedPages[] = strtolower($url);
 
         if ($html === false) {
             throw new \RuntimeException('Unable to fetch html from ' . $url);
@@ -139,7 +139,7 @@ class DocumentationCrawler
     {
         $url = strtolower($url);
 
-        if (in_array($url, $this->visitedPages, true)) {
+        if (in_array(strtolower($url), $this->visitedPages, true)) {
             return;
         }
 
