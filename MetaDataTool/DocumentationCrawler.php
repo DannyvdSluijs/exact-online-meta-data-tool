@@ -10,12 +10,13 @@ use MetaDataTool\ValueObjects\Property;
 use MetaDataTool\ValueObjects\PropertyCollection;
 use MetaDataTool\ValueObjects\Endpoint;
 use MetaDataTool\ValueObjects\EndpointCollection;
+use MetaDataTool\ValueObjects\PropertyRowParserConfig;
 use Symfony\Component\DomCrawler\Crawler;
 
 class DocumentationCrawler
 {
     private const BASE_URL = 'https://start.exactonline.nl/docs/';
-    private const ATTRIBUTE_HEADER_HAS_WEBHOOK_XPATH = '//table[@id="referencetable"]/tr[1]/th[text()="Webhook"]';
+    private const ATTRIBUTE_HEADER_XPATH = '//table[@id="referencetable"]/tr[1]';
     private const ATTRIBUTE_ROWS_XPATH = '//table[@id="referencetable"]/tr[position()>1]';
 
     /** @var string[] */
@@ -56,8 +57,6 @@ class DocumentationCrawler
         $this->domCrawler->clear();
         $this->domCrawler->add($html);
 
-        $hasWebhookColumn = $this->domCrawler->filterXPath(self::ATTRIBUTE_HEADER_HAS_WEBHOOK_XPATH)->count() === 1;
-
         $endpoint = $this->domCrawler->filterXPath('//*[@id="endpoint"]')->first()->text();
         $scope = $this->domCrawler->filterXPath('//*[@id="scope"]')->first()->text();
         $uri = $this->domCrawler->filterXPath('//*[@id="serviceUri"]')->first()->text();
@@ -77,8 +76,15 @@ class DocumentationCrawler
         }
         $example = $this->domCrawler->filterXPath('//*[@id="exampleGetUri"]')->first()->text();
 
+        $header = $this->domCrawler->filterXPath(self::ATTRIBUTE_HEADER_XPATH);
+        $columns = array_map(function($n) { return explode(' ', $n->nodeValue)[0];}, $header->children()->getIterator()->getArrayCopy());
+
+        $propertyRowParserConfig = new PropertyRowParserConfig(
+            array_search('Type', $columns, true) + 1,
+            array_search('Description', $columns, true) + 1
+        );
         $properties = $this->domCrawler->filterXpath(self::ATTRIBUTE_ROWS_XPATH)
-            ->each($this->getPropertyRowParser($hasWebhookColumn));
+            ->each($this->getPropertyRowParser($propertyRowParserConfig));
 
         return new Endpoint(
             $endpoint,
@@ -104,16 +110,15 @@ class DocumentationCrawler
         return $html;
     }
 
-    private function getPropertyRowParser(bool $hasWebhookColumn): \Closure
+    private function getPropertyRowParser(PropertyRowParserConfig $config): \Closure
     {
-        return function (Crawler $node) use ($hasWebhookColumn): Property {
-
+        return function (Crawler $node) use ($config): Property {
             if ($node->filterXpath('//td[2]/a')->count() === 1) {
                 $this->processDiscoveredUrl(self::BASE_URL . $node->filterXpath('//td[2]/a')->attr('href'));
             }
             $name = trim($node->filterXpath('//td[2]')->text());
-            $type = trim($node->filterXpath('//td[5]')->text());
-            $description = trim($node->filterXpath($hasWebhookColumn ? '//td[7]' : '//td[6]')->text());
+            $type = trim($node->filterXpath("//td[{$config->getTypeColumnIndex()}]")->text());
+            $description = trim($node->filterXpath("//td[{$config->getDocumentationColumnIndex()}]")->text());
             $primaryKey = $node->filterXpath('//td[2]/img[@title="Key"]')->count() === 1;
 
             $httpMethods = HttpMethodMask::none()->addGet();
