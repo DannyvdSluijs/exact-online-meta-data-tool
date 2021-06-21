@@ -8,6 +8,7 @@ use MetaDataTool\Config\DocumentationCrawlerConfig;
 use MetaDataTool\DocumentationCrawler;
 use MetaDataTool\PageRegistry;
 use MetaDataTool\ValueObjects\Endpoint;
+use MetaDataTool\ValueObjects\Property;
 use PHPUnit\Framework\TestCase;
 
 class DocumentationCrawlerTest extends TestCase
@@ -29,8 +30,12 @@ class DocumentationCrawlerTest extends TestCase
 
         /** @var Endpoint $account */
         $account = array_shift($endpoints);
-        $propertyNames = array_keys($account->getProperties()->getIterator()->getArrayCopy());
+        $propertyNames = array_map(
+            static function (Property $p) { return $p->getName(); },
+            $account->getProperties()->getIterator()->getArrayCopy()
+        );
         self::assertEquals('Accounts', $account->getEndpoint());
+        self::assertEquals('Crm accounts', $account->getScope());
         self::assertEquals('/api/v1/{division}/crm/Accounts', $account->getUri());
         self::assertContains('Accountant', $propertyNames);
         self::assertContains('BSN', $propertyNames);
