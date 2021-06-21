@@ -160,7 +160,6 @@ class KnownEntities extends Enum
     private const SystemSystemDivisions = 'SystemSystemDivisions';
     private const SystemSystemMe = 'SystemSystemMe';
     private const UsersUserRoles = 'UsersUserRoles';
-    private const UsersUsers = 'UsersUsers';
     private const VatVatCodes = 'VatVATCodes';
     private const VatVatPercentages = 'VatVatPercentages';
     private const WebhooksWebhookSubscriptions = 'WebhooksWebhookSubscriptions';
