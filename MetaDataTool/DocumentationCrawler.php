@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MetaDataTool;
 
+use MetaDataTool\Config\DocumentationCrawlerConfig;
 use MetaDataTool\Enum\KnownEntities;
 use MetaDataTool\ValueObjects\HttpMethodMask;
 use MetaDataTool\ValueObjects\Property;
@@ -19,36 +20,48 @@ class DocumentationCrawler
     private const ATTRIBUTE_HEADER_XPATH = '//table[@id="referencetable"]/tr[1]';
     private const ATTRIBUTE_ROWS_XPATH = '//table[@id="referencetable"]/tr[position()>1]';
 
-    /** @var string[] */
-    private $toVisitPages = [];
-    /** @var string[] */
-    private $visitedPages = [];
+    /** @var DocumentationCrawlerConfig */
+    private $config;
+    /** @var PageRegistry */
+    private $pagesToVisit;
+    /** @var PageRegistry */
+    private $visitedPages;
     /** @var Crawler */
     private $domCrawler;
-    /** @var EndpointCollection */
-    private $endpoints;
+
+    public function __construct(DocumentationCrawlerConfig $config, ?PageRegistry $pagesToVisit = null)
+    {
+        $this->config = $config;
+        $this->pagesToVisit = $pagesToVisit ?? $this->createDefaultPagesToVisit();
+        $this->visitedPages = new PageRegistry();
+    }
+
+    private function createDefaultPagesToVisit(): PageRegistry
+    {
+        $registry = new PageRegistry();
+        foreach (KnownEntities::keys() as $entity) {
+            $registry->add(self::BASE_URL . 'HlpRestAPIResourcesDetails.aspx?name=' . $entity);
+        }
+
+        return $registry;
+    }
 
     public function run(): EndpointCollection
     {
         $this->domCrawler = new Crawler();
-        $this->endpoints = new EndpointCollection();
+        $endpoints = new EndpointCollection();
 
-        foreach (KnownEntities::keys() as $entity) {
-            $this->toVisitPages[] = self::BASE_URL . 'HlpRestAPIResourcesDetails.aspx?name=' . $entity;
-        }
+        while ($this->pagesToVisit->hasAny()) {
+            $page = $this->pagesToVisit->next();
 
-        while (count($this->toVisitPages)) {
-            /** @var string $page */
-            $page = array_shift($this->toVisitPages);
-
-            if (in_array(strtolower($page), $this->visitedPages, true)) {
+            if ($this->visitedPages->hasPage($page)) {
                 continue;
             }
 
-            $this->endpoints->add($this->crawlWebPage($page));
+            $endpoints->add($this->crawlWebPage($page));
         }
 
-        return $this->endpoints;
+        return $endpoints;
     }
 
     private function crawlWebPage(string $url): Endpoint
@@ -77,7 +90,7 @@ class DocumentationCrawler
         $example = $this->domCrawler->filterXPath('//*[@id="exampleGetUri"]')->first()->text();
 
         $header = $this->domCrawler->filterXPath(self::ATTRIBUTE_HEADER_XPATH);
-        $columns = array_map(function($n) { return explode(' ', $n->nodeValue)[0];}, $header->children()->getIterator()->getArrayCopy());
+        $columns = array_map(static function($n) { return explode(' ', $n->nodeValue)[0];}, $header->children()->getIterator()->getArrayCopy());
 
         $propertyRowParserConfig = new PropertyRowParserConfig(
             array_search('Type', $columns, true) + 1,
@@ -99,9 +112,8 @@ class DocumentationCrawler
 
     private function fetchHtmlFromUrl(string $url): string
     {
-        printf('Fetching "%s"' . PHP_EOL, $url);
         $html = file_get_contents($url);
-        $this->visitedPages[] = strtolower($url);
+        $this->visitedPages->add($url);
 
         if ($html === false) {
             throw new \RuntimeException('Unable to fetch html from ' . $url);
@@ -142,16 +154,13 @@ class DocumentationCrawler
 
     private function processDiscoveredUrl(string $url): void
     {
-        $url = strtolower($url);
-
-        if (in_array(strtolower($url), $this->visitedPages, true)) {
+        if (!$this->config->shouldQueueDiscoveredLinks()) {
+            return;
+        }
+        if ($this->visitedPages->hasPage($url) ||$this->pagesToVisit->hasPage($url)) {
             return;
         }
 
-        if (in_array($url, $this->toVisitPages, true)) {
-            return;
-        }
-
-        $this->toVisitPages[] = $url;
+        $this->pagesToVisit->add($url);
     }
 }

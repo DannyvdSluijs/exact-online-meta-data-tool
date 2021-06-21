@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace MetaDataTool\Tests\ValueObjects;
+namespace MetaDataTool\Tests\Unit\ValueObjects;
 
 use MetaDataTool\ValueObjects\HttpMethodMask;
 use MetaDataTool\ValueObjects\Property;
-use MetaDataTool\Tests\TestCase;
+use MetaDataTool\Tests\Unit\TestCase;
 
 class PropertyTest extends TestCase
 {
