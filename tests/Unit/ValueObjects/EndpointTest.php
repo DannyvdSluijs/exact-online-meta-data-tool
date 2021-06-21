@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace MetaDataTool\Tests\ValueObjects;
+namespace MetaDataTool\Tests\Unit\ValueObjects;
 
 use MetaDataTool\ValueObjects\Endpoint;
 use MetaDataTool\ValueObjects\HttpMethodMask;
 use MetaDataTool\ValueObjects\PropertyCollection;
-use MetaDataTool\Tests\TestCase;
+use MetaDataTool\Tests\Unit\TestCase;
 
 class EndpointTest extends TestCase
 {

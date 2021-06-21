@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace MetaDataTool\Tests\ValueObjects;
+namespace MetaDataTool\Tests\Unit\ValueObjects;
 
-use MetaDataTool\Tests\TestCase;
+use MetaDataTool\Tests\Unit\TestCase;
 use MetaDataTool\ValueObjects\Endpoint;
 use MetaDataTool\ValueObjects\EndpointCollection;
 use MetaDataTool\ValueObjects\HttpMethodMask;

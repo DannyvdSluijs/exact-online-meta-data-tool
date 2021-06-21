@@ -37,7 +37,8 @@
         }
     },
     "scripts": {
-        "unit-tests": "./vendor/bin/phpunit",
+        "unit-tests": "phpunit --testsuite unit",
+        "integration-tests": "phpunit --testsuite integration",
         "phpcs": "./vendor/bin/phpcs --standard=PSR12 ./MetaDataTool/ ./tests/",
         "phpcbf": "./vendor/bin/phpcbf --standard=PSR12 ./MetaDataTool/ ./tests/",
         "phpstan": "./vendor/bin/phpstan analyse",

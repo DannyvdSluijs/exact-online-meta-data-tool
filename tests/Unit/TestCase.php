@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MetaDataTool\Tests;
+namespace MetaDataTool\Tests\Unit;
 
 use Faker\Factory;
 use Faker\Generator;
