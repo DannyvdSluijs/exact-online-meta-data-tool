@@ -9,11 +9,11 @@ use MetaDataTool\Exception\Exception;
 class PageRegistry
 {
     /** @var string[] */
-    private $pages = [];
+    private array $pages = [];
 
     public function hasPage(string $pageName): bool
     {
-        return in_array($this->sanitizePageName($pageName), $this->pages, true);
+        return array_key_exists($this->sanitizePageName($pageName), $this->pages);
     }
 
     public function hasAny(): bool
@@ -23,7 +23,7 @@ class PageRegistry
 
     public function add(string $pageName): void
     {
-        $this->pages[] = $this->sanitizePageName($pageName);
+        $this->pages[$this->sanitizePageName($pageName)] = $pageName;
     }
 
     public function next(): string
