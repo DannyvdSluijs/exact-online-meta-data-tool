@@ -9,7 +9,7 @@ use MetaDataTool\Exception\Exception;
 class PageRegistry
 {
     /** @var string[] */
-    private array $pages = [];
+    private $pages = [];
 
     public function hasPage(string $pageName): bool
     {
