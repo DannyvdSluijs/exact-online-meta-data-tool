@@ -32,4 +32,15 @@ class PropertyCollection implements IteratorAggregate, JsonSerializable
     {
         return $this->properties;
     }
+
+    public static function jsonDeserialize(array $jsonCollection): self
+    {
+        $collection = new self();
+
+        foreach ($jsonCollection as $jsonEndpoint) {
+            $collection->add(Property::jsonDeserialize($jsonEndpoint));
+        }
+
+        return $collection;
+    }
 }

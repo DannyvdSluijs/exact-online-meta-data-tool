@@ -131,6 +131,9 @@ class DocumentationCrawler
             $name = trim($node->filterXpath('//td[2]')->text());
             $type = trim($node->filterXpath("//td[{$config->getTypeColumnIndex()}]")->text());
             $description = trim($node->filterXpath("//td[{$config->getDocumentationColumnIndex()}]")->text());
+            if ($node->filterXpath("//td[{$config->getDocumentationColumnIndex()}]/a")->count() === 1) {
+                $description = $node->filterXpath("//td[{$config->getDocumentationColumnIndex()}]/a")->attr('href');
+            }
             $primaryKey = $node->filterXpath('//td[2]/img[@title="Key"]')->count() === 1;
 
             $httpMethods = HttpMethodMask::none()->addGet();

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace MetaDataTool\ValueObjects;
 
 use JsonSerializable;
+use stdClass;
 
 class Property implements JsonSerializable
 {
@@ -67,5 +68,16 @@ class Property implements JsonSerializable
             'primaryKey' => $this->primaryKey,
             'supportedMethods' => $this->supportedHttpMethods,
         ];
+    }
+
+    public static function jsonDeserialize(stdClass $jsonProperty): self
+    {
+        return new self(
+            $jsonProperty->name,
+            $jsonProperty->type,
+            $jsonProperty->description,
+            $jsonProperty->primaryKey,
+            HttpMethodMask::jsonDeserialize($jsonProperty->supportedMethods)
+        );
     }
 }
