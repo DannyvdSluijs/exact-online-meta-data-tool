@@ -54,4 +54,29 @@ class PropertyTest extends TestCase
             json_encode($property)
         );
     }
+
+    /**
+     * @covers \MetaDataTool\ValueObjects\Property
+     */
+    public function testPropertyCanBeCorrectlyDeserialised(): void
+    {
+        $json = (string) json_encode(new Property(
+            $name = $this->faker()->name,
+            $type = $this->faker()->randomElement(['string', 'int', 'bool']),
+            $description = $this->faker()->words(6, true),
+            true,
+            $methods = HttpMethodMask::all()
+        ));
+
+        self::assertEquals(
+            new Property(
+                $name,
+                $type,
+                $description,
+                true,
+                $methods
+            ),
+            Property::jsonDeserialize(json_decode($json, false))
+        );
+    }
 }

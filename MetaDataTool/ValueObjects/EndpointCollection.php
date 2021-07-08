@@ -39,7 +39,7 @@ class EndpointCollection implements IteratorAggregate, JsonSerializable
         return $endpoints;
     }
 
-    public static function jsonDeserialize(array $jsonCollection): self
+    public static function jsonDeserialize(\stdClass $jsonCollection): self
     {
         $collection = new self();
 

@@ -77,7 +77,7 @@ class Property implements JsonSerializable
             $jsonProperty->type,
             $jsonProperty->description,
             $jsonProperty->primaryKey,
-            HttpMethodMask::jsonDeserialize($jsonProperty->supportedMethods)
+            HttpMethodMask::jsonDeserialize((object) $jsonProperty->supportedMethods)
         );
     }
 }

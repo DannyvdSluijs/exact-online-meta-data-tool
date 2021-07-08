@@ -38,7 +38,7 @@ class PropertyCollection implements IteratorAggregate, JsonSerializable
         $collection = new self();
 
         foreach ($jsonCollection as $jsonEndpoint) {
-            $collection->add(Property::jsonDeserialize($jsonEndpoint));
+            $collection->add(Property::jsonDeserialize((object) $jsonEndpoint));
         }
 
         return $collection;
