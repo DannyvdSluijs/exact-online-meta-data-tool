@@ -90,4 +90,17 @@ class HttpMethodMaskTest extends TestCase
             json_encode($methods)
         );
     }
+
+    /**
+     * @covers \MetaDataTool\ValueObjects\HttpMethodMask
+     */
+    public function testPropertyCanBeCorrectlyDeserialised(): void
+    {
+        $json = (string) json_encode(HttpMethodMask::all());
+
+        self::assertEquals(
+            HttpMethodMask::all(),
+            HttpMethodMask::jsonDeserialize(json_decode($json, false))
+        );
+    }
 }

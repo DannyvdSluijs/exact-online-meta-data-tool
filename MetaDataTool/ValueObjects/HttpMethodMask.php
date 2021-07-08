@@ -87,4 +87,24 @@ class HttpMethodMask implements JsonSerializable
             'delete' => $this->supportsDelete(),
         ];
     }
+
+    public static function jsonDeserialize(\stdClass $jsonSupportedHttpMethods): self
+    {
+        $mask = self::none();
+
+        if ($jsonSupportedHttpMethods->get) {
+            $mask = $mask->addGet();
+        }
+        if ($jsonSupportedHttpMethods->post) {
+            $mask = $mask->addPost();
+        }
+        if ($jsonSupportedHttpMethods->put) {
+            $mask = $mask->addPut();
+        }
+        if ($jsonSupportedHttpMethods->delete) {
+            $mask = $mask->addDelete();
+        }
+
+        return $mask;
+    }
 }

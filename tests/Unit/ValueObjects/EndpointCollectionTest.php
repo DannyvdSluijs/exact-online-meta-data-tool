@@ -28,13 +28,13 @@ class EndpointCollectionTest extends TestCase
     {
         $collection = new EndpointCollection();
         $endpoint = new Endpoint(
-            $endpointUrl = $this->faker()->url,
-            $documentationUrl = $this->faker()->url,
-            $scope = $this->faker()->word,
-            $url = $this->faker()->url,
-            $methods = HttpMethodMask::all(),
-            $exampleUrl = $this->faker()->url,
-            $properties = new PropertyCollection()
+            $this->faker()->url,
+            $this->faker()->url,
+            $this->faker()->word,
+            $this->faker()->url,
+            HttpMethodMask::all(),
+            $this->faker()->url,
+            new PropertyCollection()
         );
         $collection->add($endpoint);
 
@@ -56,6 +56,28 @@ class EndpointCollectionTest extends TestCase
     public function testCollectionCanBeCorrectlySerialised(): void
     {
         $endpoint = new Endpoint(
+            $this->faker()->url,
+            $this->faker()->url,
+            $this->faker()->word,
+            $this->faker()->url,
+            HttpMethodMask::all(),
+            $this->faker()->url,
+            new PropertyCollection()
+        );
+        $collection = new EndpointCollection($endpoint);
+
+        self::assertSame(
+            json_encode([$endpoint->getEndpoint() => $endpoint]),
+            json_encode($collection)
+        );
+    }
+
+    /**
+     * @covers \MetaDataTool\ValueObjects\EndpointCollection
+     */
+    public function testCollectionCanBeCorrectlyDeserialised(): void
+    {
+        $json = (string) json_encode(new EndpointCollection(new Endpoint(
             $endpointUrl = $this->faker()->url,
             $documentationUrl = $this->faker()->url,
             $scope = $this->faker()->word,
@@ -63,12 +85,19 @@ class EndpointCollectionTest extends TestCase
             $methods = HttpMethodMask::all(),
             $exampleUrl = $this->faker()->url,
             $properties = new PropertyCollection()
-        );
-        $collection = new EndpointCollection($endpoint);
+        )));
 
-        self::assertSame(
-            json_encode([$endpoint->getEndpoint() => $endpoint]),
-            json_encode($collection)
+        self::assertEquals(
+            new EndpointCollection(new Endpoint(
+                $endpointUrl,
+                $documentationUrl,
+                $scope,
+                $url,
+                $methods,
+                $exampleUrl,
+                $properties
+            )),
+            EndpointCollection::jsonDeserialize(json_decode($json, false))
         );
     }
 }

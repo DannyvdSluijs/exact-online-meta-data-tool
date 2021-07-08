@@ -7,6 +7,7 @@ namespace MetaDataTool\ValueObjects;
 use ArrayIterator;
 use IteratorAggregate;
 use JsonSerializable;
+use stdClass;
 
 class EndpointCollection implements IteratorAggregate, JsonSerializable
 {
@@ -36,5 +37,16 @@ class EndpointCollection implements IteratorAggregate, JsonSerializable
         }
 
         return $endpoints;
+    }
+
+    public static function jsonDeserialize(\stdClass $jsonCollection): self
+    {
+        $collection = new self();
+
+        foreach ($jsonCollection as $jsonEndpoint) {
+            $collection->add(Endpoint::jsonDeserialize($jsonEndpoint));
+        }
+
+        return $collection;
     }
 }
