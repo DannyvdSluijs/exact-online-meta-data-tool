@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace MetaDataTool\Command;
 
+use MetaDataTool\Config\DocumentationCrawlerConfig;
 use MetaDataTool\JsonFileWriter;
 use MetaDataTool\DocumentationCrawler;
 use Symfony\Component\Console\Command\Command;
@@ -29,7 +30,8 @@ HELP
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $endpoints = (new DocumentationCrawler())->run();
+        $config = new DocumentationCrawlerConfig(true);
+        $endpoints = (new DocumentationCrawler($config))->run();
         $destination = $input->getOption('destination');
         if (! is_string($destination)) {
             throw new \RuntimeException('Invalid input for the destination option');

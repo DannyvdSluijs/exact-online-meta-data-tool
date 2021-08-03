@@ -18,6 +18,11 @@ class PropertyCollection implements IteratorAggregate, JsonSerializable
         $this->properties = $properties;
     }
 
+    public function add(Property $property): void
+    {
+        $this->properties[] = $property;
+    }
+
     public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->properties);
@@ -26,5 +31,16 @@ class PropertyCollection implements IteratorAggregate, JsonSerializable
     public function jsonSerialize(): array
     {
         return $this->properties;
+    }
+
+    public static function jsonDeserialize(array $jsonCollection): self
+    {
+        $collection = new self();
+
+        foreach ($jsonCollection as $jsonEndpoint) {
+            $collection->add(Property::jsonDeserialize((object) $jsonEndpoint));
+        }
+
+        return $collection;
     }
 }

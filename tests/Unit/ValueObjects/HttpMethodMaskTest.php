@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace MetaDataTool\Tests\ValueObjects;
+namespace MetaDataTool\Tests\Unit\ValueObjects;
 
-use MetaDataTool\Tests\TestCase;
+use MetaDataTool\Tests\Unit\TestCase;
 use MetaDataTool\ValueObjects\HttpMethodMask;
 
 class HttpMethodMaskTest extends TestCase
@@ -88,6 +88,19 @@ class HttpMethodMaskTest extends TestCase
                 'delete' => true,
             ]),
             json_encode($methods)
+        );
+    }
+
+    /**
+     * @covers \MetaDataTool\ValueObjects\HttpMethodMask
+     */
+    public function testPropertyCanBeCorrectlyDeserialised(): void
+    {
+        $json = (string) json_encode(HttpMethodMask::all());
+
+        self::assertEquals(
+            HttpMethodMask::all(),
+            HttpMethodMask::jsonDeserialize(json_decode($json, false))
         );
     }
 }

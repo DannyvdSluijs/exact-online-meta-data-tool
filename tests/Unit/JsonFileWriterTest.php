@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace MetaDataTool\Tests;
+namespace MetaDataTool\Tests\Unit;
 
 use MetaDataTool\JsonFileWriter;
 use MetaDataTool\ValueObjects\EndpointCollection;

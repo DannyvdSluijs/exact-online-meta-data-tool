@@ -37,10 +37,14 @@
         }
     },
     "scripts": {
-        "unit-tests": "./vendor/bin/phpunit",
-        "phpcs": "./vendor/bin/phpcs --standard=PSR12 ./MetaDataTool/ ./tests/",
-        "phpcbf": "./vendor/bin/phpcbf --standard=PSR12 ./MetaDataTool/ ./tests/",
-        "phpstan": "./vendor/bin/phpstan analyse",
+        "unit-tests": "phpunit --testsuite unit --testdox --coverage-clover=build/logs/clover-unit-tests.xml",
+        "integration-tests": "phpunit --testsuite integration --testdox --coverage-clover=build/logs/clover-integration-tests.xml",
+        "phpcs": "phpcs --standard=PSR12 ./MetaDataTool/ ./tests/",
+        "phpcbf": "phpcbf --standard=PSR12 ./MetaDataTool/ ./tests/",
+        "phpstan": "phpstan analyse",
         "build-meta-data": ["./exact-online-meta-data-tool run --destination=."]
+    },
+    "config": {
+        "sort-packages": true
     }
 }

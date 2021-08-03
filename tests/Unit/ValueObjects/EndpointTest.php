@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace MetaDataTool\Tests\ValueObjects;
+namespace MetaDataTool\Tests\Unit\ValueObjects;
 
 use MetaDataTool\ValueObjects\Endpoint;
 use MetaDataTool\ValueObjects\HttpMethodMask;
 use MetaDataTool\ValueObjects\PropertyCollection;
-use MetaDataTool\Tests\TestCase;
+use MetaDataTool\Tests\Unit\TestCase;
 
 class EndpointTest extends TestCase
 {
@@ -61,6 +61,35 @@ class EndpointTest extends TestCase
                 'properties' => $properties,
             ]),
             json_encode($endpoint)
+        );
+    }
+
+    /**
+     * @covers \MetaDataTool\ValueObjects\Endpoint
+     */
+    public function testPropertyCanBeCorrectlyDeserialised(): void
+    {
+        $json = (string) json_encode(new Endpoint(
+            $endpointUrl = $this->faker()->url,
+            $documentationUrl = $this->faker()->url,
+            $scope = $this->faker()->word,
+            $url = $this->faker()->url,
+            $methods = HttpMethodMask::all(),
+            $exampleUrl = $this->faker()->url,
+            $properties = new PropertyCollection()
+        ));
+
+        self::assertEquals(
+            new Endpoint(
+                $endpointUrl,
+                $documentationUrl,
+                $scope,
+                $url,
+                $methods,
+                $exampleUrl,
+                $properties
+            ),
+            Endpoint::jsonDeserialize(json_decode($json, false))
         );
     }
 }

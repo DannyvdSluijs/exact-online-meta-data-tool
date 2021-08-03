@@ -88,4 +88,17 @@ class Endpoint implements JsonSerializable
             'properties' => $this->properties,
         ];
     }
+
+    public static function jsonDeserialize(\stdClass $jsonEndpoint): self
+    {
+        return new self(
+            $jsonEndpoint->endpoint,
+            $jsonEndpoint->documentation,
+            $jsonEndpoint->scope,
+            $jsonEndpoint->uri,
+            HttpMethodMask::jsonDeserialize($jsonEndpoint->supportedMethods),
+            $jsonEndpoint->example,
+            PropertyCollection::jsonDeserialize($jsonEndpoint->properties)
+        );
+    }
 }
