@@ -90,7 +90,9 @@ class DocumentationCrawler
         $example = $this->domCrawler->filterXPath('//*[@id="exampleGetUri"]')->first()->text();
 
         $header = $this->domCrawler->filterXPath(self::ATTRIBUTE_HEADER_XPATH);
-        $columns = array_map(static function($n) { return explode(' ', $n->nodeValue)[0];}, $header->children()->getIterator()->getArrayCopy());
+        $columns = array_map(static function ($n) {
+            return explode(' ', $n->nodeValue)[0];
+        }, $header->children()->getIterator()->getArrayCopy());
 
         $propertyRowParserConfig = new PropertyRowParserConfig(
             array_search('Type', $columns, true) + 1,
@@ -150,8 +152,9 @@ class DocumentationCrawler
             if ($name === 'ID') {
                 $httpMethods = HttpMethodMask::all();
             }
+            $hidden = strpos($node->attr('class') ?? '', 'hiderow') !== false;
 
-            return new Property($name, $type, $description, $primaryKey, $httpMethods);
+            return new Property($name, $type, $description, $primaryKey, $httpMethods, $hidden);
         };
     }
 
@@ -160,7 +163,7 @@ class DocumentationCrawler
         if (!$this->config->shouldQueueDiscoveredLinks()) {
             return;
         }
-        if ($this->visitedPages->hasPage($url) ||$this->pagesToVisit->hasPage($url)) {
+        if ($this->visitedPages->hasPage($url) || $this->pagesToVisit->hasPage($url)) {
             return;
         }
 

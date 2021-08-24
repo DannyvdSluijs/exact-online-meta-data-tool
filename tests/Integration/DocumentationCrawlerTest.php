@@ -31,7 +31,9 @@ class DocumentationCrawlerTest extends TestCase
         /** @var Endpoint $account */
         $account = array_shift($endpoints);
         $propertyNames = array_map(
-            static function (Property $p) { return $p->getName(); },
+            static function (Property $p) {
+                return $p->getName();
+            },
             $account->getProperties()->getIterator()->getArrayCopy()
         );
         self::assertEquals('Accounts', $account->getEndpoint());
@@ -39,5 +41,31 @@ class DocumentationCrawlerTest extends TestCase
         self::assertEquals('/api/v1/{division}/crm/Accounts', $account->getUri());
         self::assertContains('Accountant', $propertyNames);
         self::assertContains('BSN', $propertyNames);
+    }
+
+    /**
+     * @covers \MetaDataTool\DocumentationCrawler
+     */
+    public function testItCanDetectHiddenIsSerialNumberProperty(): void
+    {
+        $config = new DocumentationCrawlerConfig(false);
+        $registry = new PageRegistry();
+        $registry->add('https://start.exactonline.nl/docs/HlpRestAPIResourcesDetails.aspx?name=LogisticsItems');
+        $crawler = new DocumentationCrawler($config, $registry);
+
+        $result = $crawler->run();
+        $endpoints = $result->getIterator()->getArrayCopy();
+
+        /** @var Endpoint $itemEndpoint */
+        $itemEndpoint = array_shift($endpoints);
+        /** @var Property[] $properties */
+        $properties = $itemEndpoint->getProperties()->getIterator()->getArrayCopy();
+        $matches = array_filter($properties, function ($prop) {
+            return $prop->getName() === 'IsSerialNumberItem';
+        });
+        $isSerialNumberProperty = array_shift($matches);
+
+        self::assertNotNull($isSerialNumberProperty);
+        self::assertTrue($isSerialNumberProperty->isHidden());
     }
 }
