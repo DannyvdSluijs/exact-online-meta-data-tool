@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace MetaDataTool\Tests\Unit;
 
@@ -27,6 +29,8 @@ class JsonFileWriterTest extends TestCase
         $writer = new JsonFileWriter(sys_get_temp_dir() . DIRECTORY_SEPARATOR . $subDir);
         $writer->write(new EndpointCollection());
 
-        $this->assertFileExists(sys_get_temp_dir() . DIRECTORY_SEPARATOR . $subDir . DIRECTORY_SEPARATOR . 'meta-data.json');
+        $this->assertFileExists(
+            sys_get_temp_dir() . DIRECTORY_SEPARATOR . $subDir . DIRECTORY_SEPARATOR . 'meta-data.json'
+        );
     }
 }
