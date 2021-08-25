@@ -19,19 +19,23 @@ class Property implements JsonSerializable
     private $primaryKey;
     /** @var HttpMethodMask */
     private $supportedHttpMethods;
+    /** @var boolean */
+    private $hidden;
 
     public function __construct(
         string $name,
         string $type,
         string $description,
         bool $primaryKey,
-        HttpMethodMask $supportedHttpMethods
+        HttpMethodMask $supportedHttpMethods,
+        bool $hidden
     ) {
         $this->name = $name;
         $this->type = $type;
         $this->description = $description;
         $this->primaryKey = $primaryKey;
         $this->supportedHttpMethods = $supportedHttpMethods;
+        $this->hidden = $hidden;
     }
 
     public function getName(): string
@@ -59,6 +63,11 @@ class Property implements JsonSerializable
         return $this->supportedHttpMethods;
     }
 
+    public function isHidden(): bool
+    {
+        return $this->hidden;
+    }
+
     public function jsonSerialize(): array
     {
         return [
@@ -67,6 +76,7 @@ class Property implements JsonSerializable
             'description' => $this->description,
             'primaryKey' => $this->primaryKey,
             'supportedMethods' => $this->supportedHttpMethods,
+            'hidden' => $this->hidden,
         ];
     }
 
@@ -77,7 +87,8 @@ class Property implements JsonSerializable
             $jsonProperty->type,
             $jsonProperty->description,
             $jsonProperty->primaryKey,
-            HttpMethodMask::jsonDeserialize((object) $jsonProperty->supportedMethods)
+            HttpMethodMask::jsonDeserialize((object) $jsonProperty->supportedMethods),
+            $jsonProperty->hidden
         );
     }
 }

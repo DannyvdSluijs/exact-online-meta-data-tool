@@ -20,7 +20,8 @@ class PropertyTest extends TestCase
             $type = $this->faker()->randomElement(['string', 'int', 'bool']),
             $description = $this->faker()->words(6, true),
             true,
-            $methods = HttpMethodMask::all()
+            $methods = HttpMethodMask::all(),
+            $hidden = false
         );
 
         self::assertEquals($name, $property->getName());
@@ -28,6 +29,7 @@ class PropertyTest extends TestCase
         self::assertEquals($description, $property->getDescription());
         self::assertTrue($property->isPrimaryKey());
         self::assertSame($methods, $property->getSupportedHttpMethods());
+        self::assertFalse($property->isHidden());
     }
 
     /**
@@ -40,7 +42,8 @@ class PropertyTest extends TestCase
             $type = $this->faker()->randomElement(['string', 'int', 'bool']),
             $description = $this->faker()->words(6, true),
             true,
-            $methods = HttpMethodMask::all()
+            $methods = HttpMethodMask::all(),
+            $hidden = false
         );
 
         self::assertSame(
@@ -50,6 +53,7 @@ class PropertyTest extends TestCase
                 'description' => $description,
                 'primaryKey' => true,
                 'supportedMethods' => $methods,
+                'hidden' => $hidden
             ]),
             json_encode($property)
         );
@@ -65,7 +69,8 @@ class PropertyTest extends TestCase
             $type = $this->faker()->randomElement(['string', 'int', 'bool']),
             $description = $this->faker()->words(6, true),
             true,
-            $methods = HttpMethodMask::all()
+            $methods = HttpMethodMask::all(),
+            $hidden = false
         ));
 
         self::assertEquals(
@@ -74,7 +79,8 @@ class PropertyTest extends TestCase
                 $type,
                 $description,
                 true,
-                $methods
+                $methods,
+                $hidden
             ),
             Property::jsonDeserialize(json_decode($json, false))
         );
