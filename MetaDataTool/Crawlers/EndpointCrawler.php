@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace MetaDataTool;
+namespace MetaDataTool\Crawlers;
 
-use MetaDataTool\Config\DocumentationCrawlerConfig;
+use MetaDataTool\Config\EndpointCrawlerConfig;
 use MetaDataTool\Enum\KnownEntities;
+use MetaDataTool\PageRegistry;
 use MetaDataTool\ValueObjects\HttpMethodMask;
 use MetaDataTool\ValueObjects\Property;
 use MetaDataTool\ValueObjects\PropertyCollection;
@@ -14,13 +15,13 @@ use MetaDataTool\ValueObjects\EndpointCollection;
 use MetaDataTool\ValueObjects\PropertyRowParserConfig;
 use Symfony\Component\DomCrawler\Crawler;
 
-class DocumentationCrawler
+class EndpointCrawler
 {
     private const BASE_URL = 'https://start.exactonline.nl/docs/';
     private const ATTRIBUTE_HEADER_XPATH = '//table[@id="referencetable"]/tr[1]';
     private const ATTRIBUTE_ROWS_XPATH = '//table[@id="referencetable"]/tr[position()>1]';
 
-    /** @var DocumentationCrawlerConfig */
+    /** @var EndpointCrawlerConfig */
     private $config;
     /** @var PageRegistry */
     private $pagesToVisit;
@@ -29,7 +30,7 @@ class DocumentationCrawler
     /** @var Crawler */
     private $domCrawler;
 
-    public function __construct(DocumentationCrawlerConfig $config, ?PageRegistry $pagesToVisit = null)
+    public function __construct(EndpointCrawlerConfig $config, ?PageRegistry $pagesToVisit = null)
     {
         $this->config = $config;
         $this->pagesToVisit = $pagesToVisit ?? $this->createDefaultPagesToVisit();
@@ -58,13 +59,17 @@ class DocumentationCrawler
                 continue;
             }
 
-            $endpoints->add($this->crawlWebPage($page));
+            $endpoint = $this->crawlWebPage($page);
+            if (is_null($endpoint)) {
+                continue;
+            }
+            $endpoints->add($endpoint);
         }
 
         return $endpoints;
     }
 
-    private function crawlWebPage(string $url): Endpoint
+    private function crawlWebPage(string $url): ?Endpoint
     {
         $html = $this->fetchHtmlFromUrl($url);
         $this->domCrawler->clear();
@@ -72,7 +77,11 @@ class DocumentationCrawler
 
         $endpoint = $this->domCrawler->filterXPath('//*[@id="endpoint"]')->first()->text();
         $scope = $this->domCrawler->filterXPath('//*[@id="scope"]')->first()->text();
-        $uri = $this->domCrawler->filterXPath('//*[@id="serviceUri"]')->first()->text();
+        try {
+            $uri = $this->domCrawler->filterXPath('//*[@id="serviceUri"]')->first()->text();
+        } catch (\Exception $exception) {
+            return null;
+        }
         $supportedMethodsCrawler = $this->domCrawler->filterXPath('//input[@name="supportedmethods"]');
         $httpMethods = HttpMethodMask::none();
         if ($supportedMethodsCrawler->filterXPath('input[@value="GET"]')->count() === 1) {
@@ -90,7 +99,13 @@ class DocumentationCrawler
         $example = $this->domCrawler->filterXPath('//*[@id="exampleGetUri"]')->first()->text();
 
         $header = $this->domCrawler->filterXPath(self::ATTRIBUTE_HEADER_XPATH);
-        $columns = array_map(static function($n) { return explode(' ', $n->nodeValue)[0];}, $header->children()->getIterator()->getArrayCopy());
+        if ($header->count() === 0) {
+            return null;
+        }
+
+        $columns = array_map(static function ($n) {
+            return explode(' ', $n->nodeValue)[0];
+        }, $header->children()->getIterator()->getArrayCopy());
 
         $propertyRowParserConfig = new PropertyRowParserConfig(
             array_search('Type', $columns, true) + 1,
@@ -150,8 +165,9 @@ class DocumentationCrawler
             if ($name === 'ID') {
                 $httpMethods = HttpMethodMask::all();
             }
+            $hidden = strpos($node->attr('class') ?? '', 'hiderow') !== false;
 
-            return new Property($name, $type, $description, $primaryKey, $httpMethods);
+            return new Property($name, $type, $description, $primaryKey, $httpMethods, $hidden);
         };
     }
 
@@ -160,7 +176,7 @@ class DocumentationCrawler
         if (!$this->config->shouldQueueDiscoveredLinks()) {
             return;
         }
-        if ($this->visitedPages->hasPage($url) ||$this->pagesToVisit->hasPage($url)) {
+        if ($this->visitedPages->hasPage($url) || $this->pagesToVisit->hasPage($url)) {
             return;
         }
 

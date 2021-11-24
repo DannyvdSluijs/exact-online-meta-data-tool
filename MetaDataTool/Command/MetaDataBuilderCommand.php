@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace MetaDataTool\Command;
 
-use MetaDataTool\Config\DocumentationCrawlerConfig;
+use MetaDataTool\Config\EndpointCrawlerConfig;
+use MetaDataTool\Crawlers\EndpointCrawler;
+use MetaDataTool\Crawlers\MainPageCrawler;
 use MetaDataTool\JsonFileWriter;
 use MetaDataTool\DocumentationCrawler;
 use Symfony\Component\Console\Command\Command;
@@ -30,8 +32,13 @@ HELP
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $config = new DocumentationCrawlerConfig(true);
-        $endpoints = (new DocumentationCrawler($config))->run();
+        $output->writeln('Scanning main page');
+        $mainPageCrawler = new MainPageCrawler('https://start.exactonline.nl/docs/HlpRestAPIResources.aspx');
+        $pages = $mainPageCrawler->run();
+
+        $output->writeln('Scanning entity pages');
+        $config = new EndpointCrawlerConfig(true);
+        $endpoints = (new EndpointCrawler($config, $pages))->run();
         $destination = $input->getOption('destination');
         if (! is_string($destination)) {
             throw new \RuntimeException('Invalid input for the destination option');

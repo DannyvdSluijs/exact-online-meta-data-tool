@@ -11,6 +11,11 @@ class PageRegistry
     /** @var string[] */
     private $pages = [];
 
+    public function __construct(string ...$pages)
+    {
+        $this->pages = $pages;
+    }
+
     public function hasPage(string $pageName): bool
     {
         return array_key_exists($this->sanitizePageName($pageName), $this->pages);

@@ -163,4 +163,5 @@ class KnownEntities extends Enum
     private const VatVatCodes = 'VatVATCodes';
     private const VatVatPercentages = 'VatVatPercentages';
     private const WebhooksWebhookSubscriptions = 'WebhooksWebhookSubscriptions';
+    private const ActivitiesEvents = 'ActivitiesEvents';
 }
