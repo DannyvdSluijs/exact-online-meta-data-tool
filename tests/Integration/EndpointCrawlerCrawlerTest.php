@@ -4,24 +4,25 @@ declare(strict_types=1);
 
 namespace MetaDataTool\Tests\Integration;
 
-use MetaDataTool\Config\DocumentationCrawlerConfig;
+use MetaDataTool\Config\EndpointCrawlerConfig;
+use MetaDataTool\Crawlers\EndpointCrawler;
 use MetaDataTool\DocumentationCrawler;
 use MetaDataTool\PageRegistry;
 use MetaDataTool\ValueObjects\Endpoint;
 use MetaDataTool\ValueObjects\Property;
 use PHPUnit\Framework\TestCase;
 
-class DocumentationCrawlerTest extends TestCase
+class EndpointCrawlerCrawlerTest extends TestCase
 {
     /**
-     * @covers \MetaDataTool\DocumentationCrawler
+     * @covers \MetaDataTool\Crawlers\EndpointCrawler
      */
     public function testItCanParseCrmAccountPage(): void
     {
-        $config = new DocumentationCrawlerConfig(false);
+        $config = new EndpointCrawlerConfig(false);
         $registry = new PageRegistry();
         $registry->add('https://start.exactonline.nl/docs/HlpRestAPIResourcesDetails.aspx?name=CrmAccounts');
-        $crawler = new DocumentationCrawler($config, $registry);
+        $crawler = new EndpointCrawler($config, $registry);
 
         $result = $crawler->run();
         $endpoints = $result->getIterator()->getArrayCopy();
@@ -44,14 +45,14 @@ class DocumentationCrawlerTest extends TestCase
     }
 
     /**
-     * @covers \MetaDataTool\DocumentationCrawler
+     * @covers \MetaDataTool\Crawlers\EndpointCrawler
      */
     public function testItCanDetectHiddenIsSerialNumberProperty(): void
     {
-        $config = new DocumentationCrawlerConfig(false);
+        $config = new EndpointCrawlerConfig(false);
         $registry = new PageRegistry();
         $registry->add('https://start.exactonline.nl/docs/HlpRestAPIResourcesDetails.aspx?name=LogisticsItems');
-        $crawler = new DocumentationCrawler($config, $registry);
+        $crawler = new EndpointCrawler($config, $registry);
 
         $result = $crawler->run();
         $endpoints = $result->getIterator()->getArrayCopy();
