@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace MetaDataTool\Tests\Unit\Config;
 
-use MetaDataTool\Config\DocumentationCrawlerConfig;
+use MetaDataTool\Config\EndpointCrawlerConfig;
 use PHPUnit\Framework\TestCase;
 
-class DocumentationCrawlerConfigTest extends TestCase
+class EndpointCrawlerConfigTest extends TestCase
 {
     /**
-     * @covers \MetaDataTool\ValueObjects\Endpoint
+     * @covers \MetaDataTool\Config\EndpointCrawlerConfig
      */
     public function testValueObjectHoldsAttributes(): void
     {
-        $config = new DocumentationCrawlerConfig(true);
+        $config = new EndpointCrawlerConfig(true);
 
         self::assertTrue($config->shouldQueueDiscoveredLinks());
     }

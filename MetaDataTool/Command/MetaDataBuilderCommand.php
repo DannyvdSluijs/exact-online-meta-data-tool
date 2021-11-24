@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MetaDataTool\Command;
 
-use MetaDataTool\Config\DocumentationCrawlerConfig;
+use MetaDataTool\Config\EndpointCrawlerConfig;
 use MetaDataTool\Crawlers\EndpointCrawler;
 use MetaDataTool\Crawlers\MainPageCrawler;
 use MetaDataTool\JsonFileWriter;
@@ -37,7 +37,7 @@ HELP
         $pages = $mainPageCrawler->run();
 
         $output->writeln('Scanning entity pages');
-        $config = new DocumentationCrawlerConfig(true);
+        $config = new EndpointCrawlerConfig(true);
         $endpoints = (new EndpointCrawler($config, $pages))->run();
         $destination = $input->getOption('destination');
         if (! is_string($destination)) {

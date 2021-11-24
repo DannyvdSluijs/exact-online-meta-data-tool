@@ -16,7 +16,6 @@ class PageRegistry
         $this->pages = $pages;
     }
 
-
     public function hasPage(string $pageName): bool
     {
         return array_key_exists($this->sanitizePageName($pageName), $this->pages);

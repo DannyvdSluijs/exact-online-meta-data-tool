@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MetaDataTool\Config;
 
-class DocumentationCrawlerConfig
+class EndpointCrawlerConfig
 {
     /** @var bool */
     private $queueDiscoveredLinks;

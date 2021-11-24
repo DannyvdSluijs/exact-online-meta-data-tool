@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace MetaDataTool\Crawlers;
 
-use MetaDataTool\Config\DocumentationCrawlerConfig;
+use MetaDataTool\Config\EndpointCrawlerConfig;
 use MetaDataTool\Enum\KnownEntities;
 use MetaDataTool\PageRegistry;
 use MetaDataTool\ValueObjects\HttpMethodMask;
@@ -21,7 +21,7 @@ class EndpointCrawler
     private const ATTRIBUTE_HEADER_XPATH = '//table[@id="referencetable"]/tr[1]';
     private const ATTRIBUTE_ROWS_XPATH = '//table[@id="referencetable"]/tr[position()>1]';
 
-    /** @var DocumentationCrawlerConfig */
+    /** @var EndpointCrawlerConfig */
     private $config;
     /** @var PageRegistry */
     private $pagesToVisit;
@@ -30,7 +30,7 @@ class EndpointCrawler
     /** @var Crawler */
     private $domCrawler;
 
-    public function __construct(DocumentationCrawlerConfig $config, ?PageRegistry $pagesToVisit = null)
+    public function __construct(EndpointCrawlerConfig $config, ?PageRegistry $pagesToVisit = null)
     {
         $this->config = $config;
         $this->pagesToVisit = $pagesToVisit ?? $this->createDefaultPagesToVisit();
