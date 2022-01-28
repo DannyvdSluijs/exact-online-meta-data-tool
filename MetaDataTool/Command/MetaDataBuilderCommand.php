@@ -26,7 +26,13 @@ class MetaDataBuilderCommand extends Command
                 Scans the online ExactOnline documentation allowing to discover the API entities.....
 HELP
             )->setDefinition([
-                new InputOption('destination', 'd', InputOption::VALUE_REQUIRED, 'The destination directory', getcwd()),
+                new InputOption(
+                    'destination',
+                    'd',
+                    InputOption::VALUE_REQUIRED,
+                    'The destination directory',
+                    $this->defaultDestinationDirectory()
+                ),
             ]);
     }
 
@@ -45,6 +51,7 @@ HELP
         }
         $writer = new JsonFileWriter($this->getFullDestinationPath($destination));
         $writer->write($endpoints);
+        $output->writeln('Written meta data to ' . $writer->getFullFileName());
 
         return 0;
     }
@@ -55,6 +62,15 @@ HELP
             return $destination;
         }
 
-        return getcwd() . DIRECTORY_SEPARATOR . $destination;
+        return $this->defaultDestinationDirectory() . DIRECTORY_SEPARATOR . $destination;
+    }
+
+    private function defaultDestinationDirectory(): string
+    {
+        if (strpos(__DIR__, 'vendor')) {
+            return './';
+        }
+
+        return getcwd();
     }
 }

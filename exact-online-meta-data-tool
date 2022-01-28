@@ -1,7 +1,17 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
-require __DIR__ . '/vendor/autoload.php';
+$autoloadFile = __DIR__ . '/vendor/autoload.php';
+if (strpos(__DIR__, 'vendor') !== false) {
+    $autoloadFile = __DIR__ . '/../../autoload.php';
+}
+
+if (!file_exists($autoloadFile)) {
+    echo 'Could not find autoload.php, did you run composer install?';
+    exit(1);
+}
+
+require $autoloadFile;
 
 use MetaDataTool\Command\MetaDataBuilderCommand;
 use Symfony\Component\Console\Application;

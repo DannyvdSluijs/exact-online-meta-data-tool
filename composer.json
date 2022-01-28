@@ -44,6 +44,9 @@
         "phpstan": "phpstan analyse",
         "build-meta-data": ["./exact-online-meta-data-tool run --destination=."]
     },
+    "bin": [
+        "exact-online-meta-data-tool"
+    ],
     "config": {
         "sort-packages": true
     }
