@@ -6,7 +6,7 @@ namespace MetaDataTool;
 
 use MetaDataTool\Exception\Exception;
 
-class PageRegistry
+class PageRegistry implements \Countable, \IteratorAggregate
 {
     /** @var string[] */
     private $pages = [];
@@ -43,5 +43,15 @@ class PageRegistry
     private function sanitizePageName(string $pageName): string
     {
         return strtolower($pageName);
+    }
+
+    public function count(): int
+    {
+        return count($this->pages);
+    }
+
+    public function getIterator(): \Iterator
+    {
+        return new \ArrayIterator($this->pages);
     }
 }
