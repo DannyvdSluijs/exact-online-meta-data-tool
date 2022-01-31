@@ -58,7 +58,7 @@ HELP
 
     private function getFullDestinationPath(string $destination): string
     {
-        if (strpos($destination, DIRECTORY_SEPARATOR) === 0) {
+        if (strpos($destination, DIRECTORY_SEPARATOR) === 0 || strpos($destination, '.') === 0) {
             return $destination;
         }
 
@@ -68,7 +68,7 @@ HELP
     private function defaultDestinationDirectory(): string
     {
         if (strpos(__DIR__, 'vendor')) {
-            return './';
+            return '.';
         }
 
         return getcwd();
