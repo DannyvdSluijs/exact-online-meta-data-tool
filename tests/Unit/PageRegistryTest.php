@@ -76,4 +76,32 @@ class PageRegistryTest extends TestCase
         $this->expectException(Exception::class);
         $registry->next();
     }
+
+    /**
+     * @covers \MetaDataTool\PageRegistry
+     */
+    public function testCountReturnsCorrectValue(): void
+    {
+        $registry = new PageRegistry();
+        $registry->add('https://www.example.org');
+        $registry->add('https://www.example.org/1');
+        $registry->add('https://www.example.org/2');
+
+        self::assertEquals(3, $registry->count());
+    }
+
+    /**
+     * @covers \MetaDataTool\PageRegistry
+     */
+    public function testGetIteratorReturnCorrectIterator(): void
+    {
+        $pages = [
+            'https://www.example.org',
+            'https://www.example.org/1',
+            'https://www.example.org/2',
+        ];
+        $registry = new PageRegistry(...$pages);
+
+        self::assertEquals($pages, (array) $registry->getIterator());
+    }
 }

@@ -12,7 +12,7 @@ use MetaDataTool\ValueObjects\Endpoint;
 use MetaDataTool\ValueObjects\Property;
 use PHPUnit\Framework\TestCase;
 
-class EndpointCrawlerCrawlerTest extends TestCase
+class EndpointCrawlerTest extends TestCase
 {
     /**
      * @covers \MetaDataTool\Crawlers\EndpointCrawler
@@ -68,5 +68,38 @@ class EndpointCrawlerCrawlerTest extends TestCase
 
         self::assertNotNull($isSerialNumberProperty);
         self::assertTrue($isSerialNumberProperty->isHidden());
+    }
+
+    /**
+     * @covers \MetaDataTool\Crawlers\EndpointCrawler
+     */
+    public function testInvokesCallbackOnEndpointDiscovery(): void
+    {
+        $documentation = 'https://start.exactonline.nl/docs/HlpRestAPIResourcesDetails.aspx?name=LogisticsItems';
+        $config = new EndpointCrawlerConfig(false);
+        $registry = new PageRegistry();
+        $registry->add($documentation);
+        $crawler = new EndpointCrawler($config, $registry);
+        $pointer = null;
+
+        $crawler->run(static function (?Endpoint $endpoint) use (&$pointer) {
+            $pointer = $endpoint;
+        });
+
+        self::assertNotNull($pointer);
+        self::assertEquals('Items', $pointer->getEndpoint());
+    }
+
+    /**
+     * @covers \MetaDataTool\Crawlers\EndpointCrawler
+     */
+    public function testItCanCreatedWithoutPages(): void
+    {
+        $config = new EndpointCrawlerConfig(false);
+        $registry = new PageRegistry();
+        $registry->add('https://start.exactonline.nl/docs/HlpRestAPIResourcesDetails.aspx?name=CrmAccounts');
+        $crawler = new EndpointCrawler($config);
+
+        $this->markAsRisky();
     }
 }

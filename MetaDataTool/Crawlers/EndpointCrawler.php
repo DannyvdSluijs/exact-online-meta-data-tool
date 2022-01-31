@@ -47,7 +47,7 @@ class EndpointCrawler
         return $registry;
     }
 
-    public function run(): EndpointCollection
+    public function run(?callable $fn = null): EndpointCollection
     {
         $this->domCrawler = new Crawler();
         $endpoints = new EndpointCollection();
@@ -64,6 +64,10 @@ class EndpointCrawler
                 continue;
             }
             $endpoints->add($endpoint);
+
+            if (! \is_null($fn)) {
+                $fn($endpoint);
+            }
         }
 
         return $endpoints;

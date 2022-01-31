@@ -75,4 +75,34 @@ class PropertyCollectionTest extends TestCase
             PropertyCollection::jsonDeserialize(json_decode($json, true))
         );
     }
+
+    /**
+     * @covers \MetaDataTool\ValueObjects\PropertyCollection
+     */
+    public function testCollectionReturnsCorectIterator(): void
+    {
+        $propertyOne = new Property(
+            $this->faker()->name,
+            $this->faker()->randomElement(['string', 'int', 'bool']),
+            $this->faker()->words(6, true),
+            true,
+            HttpMethodMask::all(),
+            false
+        );
+        $propertyTwo = new Property(
+            $this->faker()->name,
+            $this->faker()->randomElement(['string', 'int', 'bool']),
+            $this->faker()->words(6, true),
+            true,
+            HttpMethodMask::all(),
+            false
+        );
+        $collection = new PropertyCollection();
+        $collection->add($propertyOne);
+        $collection->add($propertyTwo);
+
+        $iterator = $collection->getIterator();
+
+        self::assertEquals([$propertyOne, $propertyTwo], (array) $iterator);
+    }
 }

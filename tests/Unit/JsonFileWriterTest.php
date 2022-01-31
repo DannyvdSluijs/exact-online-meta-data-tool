@@ -33,4 +33,13 @@ class JsonFileWriterTest extends TestCase
             sys_get_temp_dir() . DIRECTORY_SEPARATOR . $subDir . DIRECTORY_SEPARATOR . 'meta-data.json'
         );
     }
+
+    /**
+     * @covers \MetaDataTool\JsonFileWriter
+     */
+    public function testThrowsExceptionOnUncreatableDirectory(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        new JsonFileWriter('/bla/bla/bla');
+    }
 }
