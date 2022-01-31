@@ -37,7 +37,7 @@ class JsonFileWriter
     private function ensureDirectoryAvailability(string $path): void
     {
         if (! is_readable($path)) {
-            if (! mkdir($path, 0777, true) && ! is_dir($path)) {
+            if (! @mkdir($path, 0777, true) && ! is_dir($path)) {
                 throw new \RuntimeException(sprintf('Unable to create "%s"', $path));
             }
         }

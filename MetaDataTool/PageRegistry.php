@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace MetaDataTool;
 
-use JetBrains\PhpStorm\Internal\TentativeType;
 use MetaDataTool\Exception\Exception;
-use Traversable;
 
 class PageRegistry implements \Countable, \IteratorAggregate
 {
