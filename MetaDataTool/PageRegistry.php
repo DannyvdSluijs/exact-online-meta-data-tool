@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace MetaDataTool;
 
+use JetBrains\PhpStorm\Internal\TentativeType;
 use MetaDataTool\Exception\Exception;
+use Traversable;
 
-class PageRegistry
+class PageRegistry implements \Countable, \IteratorAggregate
 {
     /** @var string[] */
     private $pages = [];
@@ -43,5 +45,15 @@ class PageRegistry
     private function sanitizePageName(string $pageName): string
     {
         return strtolower($pageName);
+    }
+
+    public function count(): int
+    {
+        return count($this->pages);
+    }
+
+    public function getIterator(): \Iterator
+    {
+        return new \ArrayIterator($this->pages);
     }
 }

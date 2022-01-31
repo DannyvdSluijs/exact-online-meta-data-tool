@@ -16,8 +16,6 @@ require $autoloadFile;
 use MetaDataTool\Command\MetaDataBuilderCommand;
 use Symfony\Component\Console\Application;
 
-chdir(__DIR__);
-
 $application = new Application();
 $application->add(new MetaDataBuilderCommand());
 
