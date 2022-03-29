@@ -7,7 +7,6 @@ namespace MetaDataTool\ValueObjects;
 use ArrayIterator;
 use IteratorAggregate;
 use JsonSerializable;
-use stdClass;
 
 class EndpointCollection implements IteratorAggregate, JsonSerializable
 {
@@ -33,7 +32,7 @@ class EndpointCollection implements IteratorAggregate, JsonSerializable
     {
         $endpoints = [];
         foreach ($this->endpoints as $endpoint) {
-            $endpoints[$endpoint->getEndpoint()] = $endpoint;
+            $endpoints[$endpoint->getUri()] = $endpoint;
         }
 
         return $endpoints;
