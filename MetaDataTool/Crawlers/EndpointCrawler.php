@@ -118,6 +118,10 @@ class EndpointCrawler
         $properties = $this->domCrawler->filterXpath(self::ATTRIBUTE_ROWS_XPATH)
             ->each($this->getPropertyRowParser($propertyRowParserConfig));
 
+        $goodToKnows = $this->domCrawler->filterXPath('//*[@id="goodToKnow"]');
+        $deprecationMessage = 'This endpoint is redundant and is going to be removed.';
+        $isDeprecated = $goodToKnows->count() > 0 && strpos($goodToKnows->first()->text(), $deprecationMessage) === 0;
+
         return new Endpoint(
             $endpoint,
             $url,
@@ -125,7 +129,8 @@ class EndpointCrawler
             $uri,
             $httpMethods,
             $example,
-            new PropertyCollection(...$properties)
+            new PropertyCollection(...$properties),
+            $isDeprecated
         );
     }
 
