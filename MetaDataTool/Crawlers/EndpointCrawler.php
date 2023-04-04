@@ -120,7 +120,7 @@ class EndpointCrawler
 
         $goodToKnows = $this->domCrawler->filterXPath('//*[@id="goodToKnow"]');
         $deprecationMessage = 'This endpoint is redundant and is going to be removed.';
-        $isDeprecated = $goodToKnows->count() > 0 && strpos($goodToKnows->first()->text(), $deprecationMessage) === 0;
+        $isDeprecated = $goodToKnows->count() > 0 && strpos($goodToKnows->first()->text(), $deprecationMessage) !== false;
 
         return new Endpoint(
             $endpoint,
