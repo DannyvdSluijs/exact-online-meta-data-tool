@@ -47,7 +47,8 @@ class EndpointTest extends TestCase
             $url = $this->faker()->url,
             $methods = HttpMethodMask::all(),
             $exampleUrl = $this->faker()->url,
-            $properties = new PropertyCollection()
+            $properties = new PropertyCollection(),
+            $isDeprecated = $this->faker()->boolean()
         );
 
         self::assertSame(
@@ -59,6 +60,7 @@ class EndpointTest extends TestCase
                 'supportedMethods' => $methods,
                 'example' => $exampleUrl,
                 'properties' => $properties,
+                'deprecated' => $isDeprecated
             ]),
             json_encode($endpoint)
         );
