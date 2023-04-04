@@ -7,7 +7,9 @@ namespace MetaDataTool\Command;
 use MetaDataTool\Config\EndpointCrawlerConfig;
 use MetaDataTool\Crawlers\EndpointCrawler;
 use MetaDataTool\Crawlers\MainPageCrawler;
+use MetaDataTool\Enum\KnownEntities;
 use MetaDataTool\JsonFileWriter;
+use MetaDataTool\PageRegistry;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -53,6 +55,9 @@ HELP
         $io->info(['Scanning main page', self::MAINPAGE]);
         $mainPageCrawler = new MainPageCrawler(self::MAINPAGE);
         $pages = $mainPageCrawler->run();
+        foreach (KnownEntities::keys() as $entity) {
+            $pages->add('https://start.exactonline.nl/docs/HlpRestAPIResourcesDetails.aspx?name=' . $entity);
+        }
 
         $io->info('Scanning entity pages');
         $io->progressStart($pages->count());
