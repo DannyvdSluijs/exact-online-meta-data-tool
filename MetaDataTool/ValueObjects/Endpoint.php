@@ -22,6 +22,8 @@ class Endpoint implements JsonSerializable
     private $example;
     /** @var PropertyCollection */
     private $properties;
+    /** @var bool */
+    private $isDeprecated;
 
     public function __construct(
         string $endpoint,
@@ -30,7 +32,8 @@ class Endpoint implements JsonSerializable
         string $uri,
         HttpMethodMask $supportedHttpMethods,
         string $example,
-        PropertyCollection $properties
+        PropertyCollection $properties,
+        bool $isDeprecated = false
     ) {
         $this->endpoint = $endpoint;
         $this->documentation = $documentation;
@@ -39,6 +42,7 @@ class Endpoint implements JsonSerializable
         $this->supportedHttpMethods = $supportedHttpMethods;
         $this->example = $example;
         $this->properties = $properties;
+        $this->isDeprecated = $isDeprecated;
     }
 
     public function getEndpoint(): string
@@ -76,6 +80,11 @@ class Endpoint implements JsonSerializable
         return $this->properties;
     }
 
+    public function isDeprecated(): bool
+    {
+        return $this->isDeprecated;
+    }
+
     public function jsonSerialize(): array
     {
         return [
@@ -86,6 +95,7 @@ class Endpoint implements JsonSerializable
             'supportedMethods' => $this->supportedHttpMethods,
             'example' => $this->example,
             'properties' => $this->properties,
+            'deprecated' => $this->isDeprecated,
         ];
     }
 
@@ -98,7 +108,8 @@ class Endpoint implements JsonSerializable
             $jsonEndpoint->uri,
             HttpMethodMask::jsonDeserialize($jsonEndpoint->supportedMethods),
             $jsonEndpoint->example,
-            PropertyCollection::jsonDeserialize($jsonEndpoint->properties)
+            PropertyCollection::jsonDeserialize($jsonEndpoint->properties),
+            $jsonEndpoint->deprecated
         );
     }
 }

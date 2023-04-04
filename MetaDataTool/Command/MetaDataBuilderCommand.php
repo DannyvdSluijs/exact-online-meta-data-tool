@@ -8,7 +8,6 @@ use MetaDataTool\Config\EndpointCrawlerConfig;
 use MetaDataTool\Crawlers\EndpointCrawler;
 use MetaDataTool\Crawlers\MainPageCrawler;
 use MetaDataTool\JsonFileWriter;
-use MetaDataTool\DocumentationCrawler;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
