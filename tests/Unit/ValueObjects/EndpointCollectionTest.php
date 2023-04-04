@@ -62,12 +62,13 @@ class EndpointCollectionTest extends TestCase
             $this->faker()->url,
             HttpMethodMask::all(),
             $this->faker()->url,
-            new PropertyCollection()
+            new PropertyCollection(),
+            $this->faker()->boolean()
         );
         $collection = new EndpointCollection($endpoint);
 
         self::assertSame(
-            json_encode([$endpoint->getEndpoint() => $endpoint]),
+            json_encode([$endpoint->getUri() => $endpoint]),
             json_encode($collection)
         );
     }
@@ -84,7 +85,8 @@ class EndpointCollectionTest extends TestCase
             $url = $this->faker()->url,
             $methods = HttpMethodMask::all(),
             $exampleUrl = $this->faker()->url,
-            $properties = new PropertyCollection()
+            $properties = new PropertyCollection(),
+            $deprecated = $this->faker()->boolean()
         )));
 
         self::assertEquals(
@@ -95,7 +97,8 @@ class EndpointCollectionTest extends TestCase
                 $url,
                 $methods,
                 $exampleUrl,
-                $properties
+                $properties,
+                $deprecated
             )),
             EndpointCollection::jsonDeserialize(json_decode($json, false))
         );
