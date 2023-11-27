@@ -113,15 +113,16 @@ class EndpointCrawler
 
         $propertyRowParserConfig = new PropertyRowParserConfig(
             array_search('Type', $columns, true) + 1,
-            array_search('Description', $columns, true) + 1
+            array_search('Description', $columns, true) + 1,
+            array_search('Mandatory', $columns, true) + 1,
         );
+
         $properties = $this->domCrawler->filterXpath(self::ATTRIBUTE_ROWS_XPATH)
             ->each($this->getPropertyRowParser($propertyRowParserConfig));
 
         $goodToKnows = $this->domCrawler->filterXPath('//*[@id="goodToKnow"]');
         $deprecationMessage = 'This endpoint is redundant and is going to be removed.';
         $isDeprecated = $goodToKnows->count() > 0 && strpos($goodToKnows->first()->text(), $deprecationMessage) !== false;
-
         return new Endpoint(
             $endpoint,
             $url,
@@ -175,8 +176,9 @@ class EndpointCrawler
                 $httpMethods = HttpMethodMask::all();
             }
             $hidden = strpos($node->attr('class') ?? '', 'hiderow') !== false;
+            $mandatory = strtolower(trim($node->filterXpath("//td[{$config->getMandatoryColumnIndex()}]")->text())) === 'true';
 
-            return new Property($name, $type, $description, $primaryKey, $httpMethods, $hidden);
+            return new Property($name, $type, $description, $primaryKey, $httpMethods, $hidden, $mandatory);
         };
     }
 

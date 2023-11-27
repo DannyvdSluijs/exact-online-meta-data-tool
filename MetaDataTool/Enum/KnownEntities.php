@@ -148,8 +148,6 @@ class KnownEntities extends Enum
     private const SalesOrderPrintedSalesOrders = 'SalesorderPrintedSalesOrders';
     private const SalesOrderSalesOrderLines = 'SalesOrderSalesOrderLines';
     private const SalesOrderSalesOrders = 'SalesOrderSalesOrders';
-    private const SalesPriceLists = 'SalesPriceLists';
-    private const SalesSalesPriceListDetails = 'SalesSalesPriceListDetails';
     private const SalesSalesPriceListLinkedAccounts = 'SalesSalesPriceListLinkedAccounts';
     private const SalesSalesPriceListPeriods = 'SalesSalesPriceListPeriods';
     private const SalesSalesPriceLists = 'SalesSalesPriceLists';
