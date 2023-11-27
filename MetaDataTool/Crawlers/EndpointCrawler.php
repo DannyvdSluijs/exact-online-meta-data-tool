@@ -114,7 +114,7 @@ class EndpointCrawler
         $propertyRowParserConfig = new PropertyRowParserConfig(
             array_search('Type', $columns, true) + 1,
             array_search('Description', $columns, true) + 1,
-            array_search('Mandatory', $columns, true) + 1,
+            array_search('Mandatory', $columns, true) + 1
         );
 
         $properties = $this->domCrawler->filterXpath(self::ATTRIBUTE_ROWS_XPATH)
