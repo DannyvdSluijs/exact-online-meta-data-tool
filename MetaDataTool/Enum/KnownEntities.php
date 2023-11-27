@@ -162,10 +162,8 @@ class KnownEntities extends Enum
     private const SubscriptionSubscriptions = 'SubscriptionSubscriptions';
     private const SyncCRMQuotationHeaders = 'SyncCRMQuotationHeaders';
     private const SyncCRMQuotationLines = 'SyncCRMQuotationLines';
-    private const SyncCRMQuotations = 'SyncCRMQuotations';
     private const SyncSalesOrderSalesOrderHeaders = 'SyncSalesOrderSalesOrderHeaders';
     private const SyncSalesOrderSalesOrderLines = 'SyncSalesOrderSalesOrderLines';
-    private const SyncSalesOrderSalesOrders = 'SyncSalesOrderSalesOrders';
     private const SystemSystemDivisions = 'SystemSystemDivisions';
     private const SystemSystemMe = 'SystemSystemMe';
     private const UsersUserRoles = 'UsersUserRoles';
