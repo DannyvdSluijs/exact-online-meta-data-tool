@@ -72,7 +72,7 @@ class Property implements JsonSerializable
         return $this->hidden;
     }
 
-    public function mandatory(): bool
+    public function isMandatory(): bool
     {
         return $this->mandatory;
     }

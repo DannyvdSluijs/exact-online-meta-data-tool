@@ -16,10 +16,12 @@ class PropertyRowParserConfigTest extends TestCase
     {
         $config = new PropertyRowParserConfig(
             1,
-            5
+            5,
+            4
         );
 
         self::assertSame(1, $config->getTypeColumnIndex());
         self::assertSame(5, $config->getDocumentationColumnIndex());
+        self::assertSame(4, $config->getMandatoryColumnIndex());
     }
 }
