@@ -10,13 +10,17 @@ class PropertyRowParserConfig
     private $typeColumnIndex;
     /** @var int */
     private $documentationColumnIndex;
+    /** @var int */
+    private $mandatoryColumnIndex;
 
     public function __construct(
         $typeColumnIndex,
-        $documentationColumnIndex
+        $documentationColumnIndex,
+        $mandatoryColumnIndex
     ) {
         $this->typeColumnIndex = $typeColumnIndex;
         $this->documentationColumnIndex = $documentationColumnIndex;
+        $this->mandatoryColumnIndex = $mandatoryColumnIndex;
     }
 
     public function getTypeColumnIndex(): int
@@ -27,5 +31,10 @@ class PropertyRowParserConfig
     public function getDocumentationColumnIndex(): int
     {
         return $this->documentationColumnIndex;
+    }
+
+    public function getMandatoryColumnIndex(): int
+    {
+        return $this->mandatoryColumnIndex;
     }
 }

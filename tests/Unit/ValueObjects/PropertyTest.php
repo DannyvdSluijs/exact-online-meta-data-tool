@@ -21,7 +21,8 @@ class PropertyTest extends TestCase
             $description = $this->faker()->words(6, true),
             true,
             $methods = HttpMethodMask::all(),
-            $hidden = false
+            $hidden = false,
+            $mandatory = true
         );
 
         self::assertEquals($name, $property->getName());
@@ -30,6 +31,7 @@ class PropertyTest extends TestCase
         self::assertTrue($property->isPrimaryKey());
         self::assertSame($methods, $property->getSupportedHttpMethods());
         self::assertFalse($property->isHidden());
+        self::assertTrue($property->isMandatory());
     }
 
     /**
@@ -43,7 +45,8 @@ class PropertyTest extends TestCase
             $description = $this->faker()->words(6, true),
             true,
             $methods = HttpMethodMask::all(),
-            $hidden = false
+            $hidden = false,
+            $mandatory = true
         );
 
         self::assertSame(
@@ -53,7 +56,8 @@ class PropertyTest extends TestCase
                 'description' => $description,
                 'primaryKey' => true,
                 'supportedMethods' => $methods,
-                'hidden' => $hidden
+                'hidden' => $hidden,
+                'mandatory' => $mandatory
             ]),
             json_encode($property)
         );
@@ -70,7 +74,8 @@ class PropertyTest extends TestCase
             $description = $this->faker()->words(6, true),
             true,
             $methods = HttpMethodMask::all(),
-            $hidden = false
+            $hidden = false,
+            $mandatory = true
         ));
 
         self::assertEquals(
@@ -80,7 +85,8 @@ class PropertyTest extends TestCase
                 $description,
                 true,
                 $methods,
-                $hidden
+                $hidden,
+                $mandatory
             ),
             Property::jsonDeserialize(json_decode($json, false))
         );

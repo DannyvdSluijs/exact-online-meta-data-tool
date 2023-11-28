@@ -89,17 +89,4 @@ class EndpointCrawlerTest extends TestCase
         self::assertNotNull($pointer);
         self::assertEquals('Items', $pointer->getEndpoint());
     }
-
-    /**
-     * @covers \MetaDataTool\Crawlers\EndpointCrawler
-     */
-    public function testItCanCreatedWithoutPages(): void
-    {
-        $config = new EndpointCrawlerConfig(false);
-        $registry = new PageRegistry();
-        $registry->add('https://start.exactonline.nl/docs/HlpRestAPIResourcesDetails.aspx?name=CrmAccounts');
-        $crawler = new EndpointCrawler($config);
-
-        $this->markAsRisky();
-    }
 }

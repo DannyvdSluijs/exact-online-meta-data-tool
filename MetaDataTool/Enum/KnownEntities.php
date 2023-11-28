@@ -148,8 +148,6 @@ class KnownEntities extends Enum
     private const SalesOrderPrintedSalesOrders = 'SalesorderPrintedSalesOrders';
     private const SalesOrderSalesOrderLines = 'SalesOrderSalesOrderLines';
     private const SalesOrderSalesOrders = 'SalesOrderSalesOrders';
-    private const SalesPriceLists = 'SalesPriceLists';
-    private const SalesSalesPriceListDetails = 'SalesSalesPriceListDetails';
     private const SalesSalesPriceListLinkedAccounts = 'SalesSalesPriceListLinkedAccounts';
     private const SalesSalesPriceListPeriods = 'SalesSalesPriceListPeriods';
     private const SalesSalesPriceLists = 'SalesSalesPriceLists';
@@ -164,10 +162,8 @@ class KnownEntities extends Enum
     private const SubscriptionSubscriptions = 'SubscriptionSubscriptions';
     private const SyncCRMQuotationHeaders = 'SyncCRMQuotationHeaders';
     private const SyncCRMQuotationLines = 'SyncCRMQuotationLines';
-    private const SyncCRMQuotations = 'SyncCRMQuotations';
     private const SyncSalesOrderSalesOrderHeaders = 'SyncSalesOrderSalesOrderHeaders';
     private const SyncSalesOrderSalesOrderLines = 'SyncSalesOrderSalesOrderLines';
-    private const SyncSalesOrderSalesOrders = 'SyncSalesOrderSalesOrders';
     private const SystemSystemDivisions = 'SystemSystemDivisions';
     private const SystemSystemMe = 'SystemSystemMe';
     private const UsersUserRoles = 'UsersUserRoles';

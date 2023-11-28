@@ -39,7 +39,8 @@ class PropertyCollectionTest extends TestCase
             $description = $this->faker()->words(6, true),
             true,
             $methods = HttpMethodMask::all(),
-            $hidden = true
+            $hidden = true,
+            $mandatory = true
         );
         $collection = new PropertyCollection($property);
 
@@ -60,7 +61,8 @@ class PropertyCollectionTest extends TestCase
             $description = $this->faker()->words(6, true),
             true,
             $methods = HttpMethodMask::all(),
-            $hidden = true
+            $hidden = true,
+            $mandatory = true
         )));
 
         self::assertEquals(
@@ -70,7 +72,8 @@ class PropertyCollectionTest extends TestCase
                 $description,
                 true,
                 $methods,
-                $hidden
+                $hidden,
+                $mandatory
             )),
             PropertyCollection::jsonDeserialize(json_decode($json, true))
         );
@@ -87,7 +90,8 @@ class PropertyCollectionTest extends TestCase
             $this->faker()->words(6, true),
             true,
             HttpMethodMask::all(),
-            false
+            false,
+            true
         );
         $propertyTwo = new Property(
             $this->faker()->name,
@@ -95,6 +99,7 @@ class PropertyCollectionTest extends TestCase
             $this->faker()->words(6, true),
             true,
             HttpMethodMask::all(),
+            false,
             false
         );
         $collection = new PropertyCollection();
