@@ -16,7 +16,9 @@ require $autoloadFile;
 use MetaDataTool\Command\MetaDataBuilderCommand;
 use Symfony\Component\Console\Application;
 
+$command = new MetaDataBuilderCommand();
 $application = new Application();
-$application->add(new MetaDataBuilderCommand());
+$application->add($command);
+$application->setDefaultCommand($command->getName());
 
 $application->run();

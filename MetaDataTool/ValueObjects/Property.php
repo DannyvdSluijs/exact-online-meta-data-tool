@@ -9,37 +9,8 @@ use stdClass;
 
 class Property implements JsonSerializable
 {
-    /** @var string */
-    private $name;
-    /** @var string */
-    private $type;
-    /** @var string */
-    private $description;
-    /** @var bool */
-    private $primaryKey;
-    /** @var HttpMethodMask */
-    private $supportedHttpMethods;
-    /** @var boolean */
-    private $hidden;
-    /** @var boolean */
-    private $mandatory;
-
-    public function __construct(
-        string $name,
-        string $type,
-        string $description,
-        bool $primaryKey,
-        HttpMethodMask $supportedHttpMethods,
-        bool $hidden,
-        bool $mandatory
-    ) {
-        $this->name = $name;
-        $this->type = $type;
-        $this->description = $description;
-        $this->primaryKey = $primaryKey;
-        $this->supportedHttpMethods = $supportedHttpMethods;
-        $this->hidden = $hidden;
-        $this->mandatory = $mandatory;
+    public function __construct(private string $name, private string $type, private string $description, private bool $primaryKey, private HttpMethodMask $supportedHttpMethods, private bool $hidden, private bool $mandatory)
+    {
     }
 
     public function getName(): string

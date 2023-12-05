@@ -6,12 +6,8 @@ namespace MetaDataTool\Config;
 
 class EndpointCrawlerConfig
 {
-    /** @var bool */
-    private $queueDiscoveredLinks;
-
-    public function __construct(bool $queueDiscoveredLinks)
+    public function __construct(private bool $queueDiscoveredLinks)
     {
-        $this->queueDiscoveredLinks = $queueDiscoveredLinks;
     }
 
     public function shouldQueueDiscoveredLinks(): bool

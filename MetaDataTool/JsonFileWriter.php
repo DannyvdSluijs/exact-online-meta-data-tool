@@ -11,16 +11,11 @@ class JsonFileWriter
 {
     private const FILE_NAME = '/meta-data.json';
 
-    /** @var string */
-    private $path;
-
     /**
      * JsonFileWriter constructor.
-     * @param string $path
      */
-    public function __construct(string $path)
+    public function __construct(private string $path)
     {
-        $this->path = $path;
         $this->ensureDirectoryAvailability($path);
     }
 

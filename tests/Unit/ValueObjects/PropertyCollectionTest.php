@@ -46,7 +46,7 @@ class PropertyCollectionTest extends TestCase
 
         self::assertSame(
             json_encode([$property]),
-            json_encode($collection)
+            json_encode($collection, JSON_THROW_ON_ERROR)
         );
     }
 
@@ -63,7 +63,7 @@ class PropertyCollectionTest extends TestCase
             $methods = HttpMethodMask::all(),
             $hidden = true,
             $mandatory = true
-        )));
+        )), JSON_THROW_ON_ERROR);
 
         self::assertEquals(
             new PropertyCollection(new Property(
@@ -75,7 +75,7 @@ class PropertyCollectionTest extends TestCase
                 $hidden,
                 $mandatory
             )),
-            PropertyCollection::jsonDeserialize(json_decode($json, true))
+            PropertyCollection::jsonDeserialize(json_decode($json, true, 512, JSON_THROW_ON_ERROR))
         );
     }
 

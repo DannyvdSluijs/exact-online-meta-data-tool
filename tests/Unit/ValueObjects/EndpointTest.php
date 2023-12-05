@@ -61,8 +61,8 @@ class EndpointTest extends TestCase
                 'example' => $exampleUrl,
                 'properties' => $properties,
                 'deprecated' => $isDeprecated
-            ]),
-            json_encode($endpoint)
+            ], JSON_THROW_ON_ERROR),
+            json_encode($endpoint, JSON_THROW_ON_ERROR)
         );
     }
 
@@ -79,7 +79,7 @@ class EndpointTest extends TestCase
             $methods = HttpMethodMask::all(),
             $exampleUrl = $this->faker()->url,
             $properties = new PropertyCollection()
-        ));
+        ), JSON_THROW_ON_ERROR);
 
         self::assertEquals(
             new Endpoint(
@@ -91,7 +91,7 @@ class EndpointTest extends TestCase
                 $exampleUrl,
                 $properties
             ),
-            Endpoint::jsonDeserialize(json_decode($json, false))
+            Endpoint::jsonDeserialize(json_decode($json, false, 512, JSON_THROW_ON_ERROR))
         );
     }
 }

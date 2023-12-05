@@ -15,12 +15,8 @@ class HttpMethodMask implements JsonSerializable
     private const DELETE = 8;
     private const ALL = 15;
 
-    /** @var int */
-    private $mask;
-
-    private function __construct(int $mask)
+    private function __construct(private int $mask)
     {
-        $this->mask = $mask;
     }
 
     public static function none(): self

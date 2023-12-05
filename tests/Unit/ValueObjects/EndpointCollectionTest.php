@@ -68,8 +68,8 @@ class EndpointCollectionTest extends TestCase
         $collection = new EndpointCollection($endpoint);
 
         self::assertSame(
-            json_encode([$endpoint->getUri() => $endpoint]),
-            json_encode($collection)
+            json_encode([$endpoint->getUri() => $endpoint], JSON_THROW_ON_ERROR),
+            json_encode($collection, JSON_THROW_ON_ERROR)
         );
     }
 
@@ -87,7 +87,7 @@ class EndpointCollectionTest extends TestCase
             $exampleUrl = $this->faker()->url,
             $properties = new PropertyCollection(),
             $deprecated = $this->faker()->boolean()
-        )));
+        )), JSON_THROW_ON_ERROR);
 
         self::assertEquals(
             new EndpointCollection(new Endpoint(
@@ -100,7 +100,7 @@ class EndpointCollectionTest extends TestCase
                 $properties,
                 $deprecated
             )),
-            EndpointCollection::jsonDeserialize(json_decode($json, false))
+            EndpointCollection::jsonDeserialize(json_decode($json, false, 512, JSON_THROW_ON_ERROR))
         );
     }
 }
