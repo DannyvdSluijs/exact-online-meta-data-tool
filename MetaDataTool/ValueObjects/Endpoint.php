@@ -8,9 +8,16 @@ use JsonSerializable;
 
 class Endpoint implements JsonSerializable
 {
-    public function __construct(private string $endpoint, private string $documentation, private string $scope, private string $uri, private HttpMethodMask $supportedHttpMethods, private string $example, private PropertyCollection $properties, private bool $isDeprecated = false)
-    {
-    }
+    public function __construct(
+        private string $endpoint,
+        private string $documentation,
+        private string $scope,
+        private string $uri,
+        private HttpMethodMask $supportedHttpMethods,
+        private string $example,
+        private PropertyCollection $properties,
+        private bool $isDeprecated = false
+    ) {}
 
     public function getEndpoint(): string
     {

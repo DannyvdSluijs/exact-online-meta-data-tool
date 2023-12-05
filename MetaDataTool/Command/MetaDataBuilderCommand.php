@@ -19,9 +19,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class MetaDataBuilderCommand extends Command
 {
-    private const MAINPAGE = 'https://start.exactonline.nl/docs/HlpRestAPIResources.aspx';
+    private const MAIN_PAGE = 'https://start.exactonline.nl/docs/HlpRestAPIResources.aspx';
     protected static $defaultName = 'run';
-
 
     protected function configure(): void
     {
@@ -53,8 +52,8 @@ HELP
             die(1);
         }
 
-        $io->info(['Scanning main page', self::MAINPAGE]);
-        $mainPageCrawler = new MainPageCrawler(self::MAINPAGE);
+        $io->info(['Scanning main page', self::MAIN_PAGE]);
+        $mainPageCrawler = new MainPageCrawler(self::MAIN_PAGE);
         $pages = $mainPageCrawler->run();
         foreach (KnownEntities::keys() as $entity) {
             $pages->add('https://start.exactonline.nl/docs/HlpRestAPIResourcesDetails.aspx?name=' . $entity);

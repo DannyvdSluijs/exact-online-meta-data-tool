@@ -9,9 +9,15 @@ use stdClass;
 
 class Property implements JsonSerializable
 {
-    public function __construct(private string $name, private string $type, private string $description, private bool $primaryKey, private HttpMethodMask $supportedHttpMethods, private bool $hidden, private bool $mandatory)
-    {
-    }
+    public function __construct(
+        private string $name,
+        private string $type,
+        private string $description,
+        private bool $primaryKey,
+        private HttpMethodMask $supportedHttpMethods,
+        private bool $hidden,
+        private bool $mandatory
+    ) {}
 
     public function getName(): string
     {

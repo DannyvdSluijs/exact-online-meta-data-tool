@@ -20,9 +20,9 @@ class EndpointCrawler
     private const BASE_URL = 'https://start.exactonline.nl/docs/';
     private const ATTRIBUTE_HEADER_XPATH = '//table[@id="referencetable"]/tr[1]';
     private const ATTRIBUTE_ROWS_XPATH = '//table[@id="referencetable"]/tr[position()>1]';
-    private \MetaDataTool\PageRegistry $pagesToVisit;
-    private \MetaDataTool\PageRegistry $visitedPages;
-    private ?\Symfony\Component\DomCrawler\Crawler $domCrawler = null;
+    private PageRegistry $pagesToVisit;
+    private PageRegistry $visitedPages;
+    private ?Crawler $domCrawler = null;
 
     public function __construct(private EndpointCrawlerConfig $config, ?PageRegistry $pagesToVisit = null)
     {

@@ -9,9 +9,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class MainPageCrawler
 {
-    public function __construct(private string $mainPage)
-    {
-    }
+    public function __construct(private string $mainPage) {}
 
     public function run(): PageRegistry
     {

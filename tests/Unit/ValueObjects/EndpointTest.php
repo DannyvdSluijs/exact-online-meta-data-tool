@@ -23,7 +23,8 @@ class EndpointTest extends TestCase
             $url = $this->faker()->url,
             $methods = HttpMethodMask::all(),
             $exampleUrl = $this->faker()->url,
-            $properties = new PropertyCollection()
+            $properties = new PropertyCollection(),
+            $deprecated = $this->faker()->boolean,
         );
 
         self::assertSame($endpointUrl, $endpoint->getEndpoint());
@@ -33,6 +34,7 @@ class EndpointTest extends TestCase
         self::assertEquals($methods, $endpoint->getSupportedHttpMethods());
         self::assertSame($exampleUrl, $endpoint->getExample());
         self::assertEquals($properties, $endpoint->getProperties());
+        self::assertEquals($deprecated, $endpoint->isDeprecated());
     }
 
     /**

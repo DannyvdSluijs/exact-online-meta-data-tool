@@ -21,7 +21,7 @@ class JsonFileWriter
 
     public function write(EndpointCollection $endpoints): void
     {
-        file_put_contents($this->getFullFileName(), json_encode($endpoints, JSON_PRETTY_PRINT));
+        file_put_contents($this->getFullFileName(), json_encode($endpoints, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
     }
 
     public function getFullFileName(): string

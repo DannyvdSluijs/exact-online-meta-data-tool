@@ -11,7 +11,7 @@ use JsonSerializable;
 class PropertyCollection implements IteratorAggregate, JsonSerializable
 {
     /** @var Property[] */
-    private $properties;
+    private array $properties;
 
     public function __construct(Property ...$properties)
     {
