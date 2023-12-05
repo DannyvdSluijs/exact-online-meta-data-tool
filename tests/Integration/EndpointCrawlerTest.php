@@ -6,7 +6,6 @@ namespace MetaDataTool\Tests\Integration;
 
 use MetaDataTool\Config\EndpointCrawlerConfig;
 use MetaDataTool\Crawlers\EndpointCrawler;
-use MetaDataTool\DocumentationCrawler;
 use MetaDataTool\PageRegistry;
 use MetaDataTool\ValueObjects\Endpoint;
 use MetaDataTool\ValueObjects\Property;
