@@ -58,8 +58,8 @@ class PropertyTest extends TestCase
                 'supportedMethods' => $methods,
                 'hidden' => $hidden,
                 'mandatory' => $mandatory
-            ]),
-            json_encode($property)
+            ], JSON_THROW_ON_ERROR),
+            json_encode($property, JSON_THROW_ON_ERROR)
         );
     }
 
@@ -76,7 +76,7 @@ class PropertyTest extends TestCase
             $methods = HttpMethodMask::all(),
             $hidden = false,
             $mandatory = true
-        ));
+        ), JSON_THROW_ON_ERROR);
 
         self::assertEquals(
             new Property(
@@ -88,7 +88,7 @@ class PropertyTest extends TestCase
                 $hidden,
                 $mandatory
             ),
-            Property::jsonDeserialize(json_decode($json, false))
+            Property::jsonDeserialize(json_decode($json, false, 512, JSON_THROW_ON_ERROR))
         );
     }
 }

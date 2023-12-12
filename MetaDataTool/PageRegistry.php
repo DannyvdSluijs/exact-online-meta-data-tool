@@ -9,7 +9,7 @@ use MetaDataTool\Exception\Exception;
 class PageRegistry implements \Countable, \IteratorAggregate
 {
     /** @var string[] */
-    private $pages = [];
+    private array $pages;
 
     public function __construct(string ...$pages)
     {

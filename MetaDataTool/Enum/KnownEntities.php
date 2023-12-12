@@ -110,6 +110,7 @@ class KnownEntities extends Enum
     private const ProjectProjectHourBudgets = 'ProjectProjectHourBudgets';
     private const ProjectProjectPlanning = 'ProjectProjectPlanning';
     private const ProjectProjectPlanningRecurring = 'ProjectProjectPlanningRecurring';
+    private const ProjectProjectProgressReports = 'ProjectProjectProgressReports';
     private const ProjectProjectRestrictionEmployees = 'ProjectProjectRestrictionEmployees';
     private const ProjectProjectRestrictionItems = 'ProjectProjectRestrictionItems';
     private const ProjectProjectRestrictionRebillings = 'ProjectProjectRestrictionRebillings';

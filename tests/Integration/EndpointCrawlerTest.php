@@ -6,7 +6,6 @@ namespace MetaDataTool\Tests\Integration;
 
 use MetaDataTool\Config\EndpointCrawlerConfig;
 use MetaDataTool\Crawlers\EndpointCrawler;
-use MetaDataTool\DocumentationCrawler;
 use MetaDataTool\PageRegistry;
 use MetaDataTool\ValueObjects\Endpoint;
 use MetaDataTool\ValueObjects\Property;
@@ -32,9 +31,7 @@ class EndpointCrawlerTest extends TestCase
         /** @var Endpoint $account */
         $account = array_shift($endpoints);
         $propertyNames = array_map(
-            static function (Property $p) {
-                return $p->getName();
-            },
+            static fn(Property $p) => $p->getName(),
             $account->getProperties()->getIterator()->getArrayCopy()
         );
         self::assertEquals('Accounts', $account->getEndpoint());
@@ -61,9 +58,7 @@ class EndpointCrawlerTest extends TestCase
         $itemEndpoint = array_shift($endpoints);
         /** @var Property[] $properties */
         $properties = $itemEndpoint->getProperties()->getIterator()->getArrayCopy();
-        $matches = array_filter($properties, function ($prop) {
-            return $prop->getName() === 'IsSerialNumberItem';
-        });
+        $matches = array_filter($properties, fn($prop) => $prop->getName() === 'IsSerialNumberItem');
         $isSerialNumberProperty = array_shift($matches);
 
         self::assertNotNull($isSerialNumberProperty);

@@ -8,42 +8,16 @@ use JsonSerializable;
 
 class Endpoint implements JsonSerializable
 {
-    /** @var string */
-    private $endpoint;
-    /** @var string */
-    private $documentation;
-    /** @var string */
-    private $scope;
-    /** @var string */
-    private $uri;
-    /** @var HttpMethodMask */
-    private $supportedHttpMethods;
-    /** @var string */
-    private $example;
-    /** @var PropertyCollection */
-    private $properties;
-    /** @var bool */
-    private $isDeprecated;
-
     public function __construct(
-        string $endpoint,
-        string $documentation,
-        string $scope,
-        string $uri,
-        HttpMethodMask $supportedHttpMethods,
-        string $example,
-        PropertyCollection $properties,
-        bool $isDeprecated = false
-    ) {
-        $this->endpoint = $endpoint;
-        $this->documentation = $documentation;
-        $this->scope = $scope;
-        $this->uri = $uri;
-        $this->supportedHttpMethods = $supportedHttpMethods;
-        $this->example = $example;
-        $this->properties = $properties;
-        $this->isDeprecated = $isDeprecated;
-    }
+        private string $endpoint,
+        private string $documentation,
+        private string $scope,
+        private string $uri,
+        private HttpMethodMask $supportedHttpMethods,
+        private string $example,
+        private PropertyCollection $properties,
+        private bool $isDeprecated = false
+    ) {}
 
     public function getEndpoint(): string
     {

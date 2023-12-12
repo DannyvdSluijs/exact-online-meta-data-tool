@@ -89,7 +89,7 @@ class HttpMethodMaskTest extends TestCase
                 'put' => true,
                 'delete' => true,
             ]),
-            json_encode($methods)
+            json_encode($methods, JSON_THROW_ON_ERROR)
         );
     }
 
@@ -98,11 +98,11 @@ class HttpMethodMaskTest extends TestCase
      */
     public function testPropertyCanBeCorrectlyDeserialised(): void
     {
-        $json = (string) json_encode(HttpMethodMask::all());
+        $json = (string) json_encode(HttpMethodMask::all(), JSON_THROW_ON_ERROR);
 
         self::assertEquals(
             HttpMethodMask::all(),
-            HttpMethodMask::jsonDeserialize(json_decode($json, false))
+            HttpMethodMask::jsonDeserialize(json_decode($json, false, 512, JSON_THROW_ON_ERROR))
         );
     }
 }

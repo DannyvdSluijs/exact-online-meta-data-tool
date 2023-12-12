@@ -9,8 +9,9 @@ use MetaDataTool\Crawlers\EndpointCrawler;
 use MetaDataTool\Crawlers\MainPageCrawler;
 use MetaDataTool\Enum\KnownEntities;
 use MetaDataTool\JsonFileWriter;
-use MetaDataTool\PageRegistry;
+use MetaDataTool\ValueObjects\Endpoint;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -18,9 +19,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class MetaDataBuilderCommand extends Command
 {
-    private const MAINPAGE = 'https://start.exactonline.nl/docs/HlpRestAPIResources.aspx';
+    private const MAIN_PAGE = 'https://start.exactonline.nl/docs/HlpRestAPIResources.aspx';
     protected static $defaultName = 'run';
-
 
     protected function configure(): void
     {
@@ -52,22 +52,29 @@ HELP
             die(1);
         }
 
-        $io->info(['Scanning main page', self::MAINPAGE]);
-        $mainPageCrawler = new MainPageCrawler(self::MAINPAGE);
+        $io->info(['Scanning main page', self::MAIN_PAGE]);
+        $mainPageCrawler = new MainPageCrawler(self::MAIN_PAGE);
         $pages = $mainPageCrawler->run();
         foreach (KnownEntities::keys() as $entity) {
             $pages->add('https://start.exactonline.nl/docs/HlpRestAPIResourcesDetails.aspx?name=' . $entity);
         }
 
         $io->info('Scanning entity pages');
-        $io->progressStart($pages->count());
+        ProgressBar::setFormatDefinition('custom', ' %current%/%max% -- %message% (%url%)');
+        $progressBar = $io->createProgressBar($pages->count());
+        $progressBar->setFormat('custom');
+        $progressBar->setMessage('Processing documentation');
+        $progressBar->start();
 
         $config = new EndpointCrawlerConfig(true);
         $endpoints = (new EndpointCrawler($config, $pages))
-            ->run(static function() use ($io): void {
-                $io->progressAdvance(1);
+            ->run(static function(Endpoint $endpoint) use ($progressBar): void {
+                $progressBar->advance(1);
+                $progressBar->setMessage($endpoint->getDocumentation(), 'url');
             });
-        $io->progressFinish();
+        $progressBar->finish();
+        $progressBar->setMessage('');
+        $io->newLine(2);
 
         $io->info('Creating meta data file');
         $writer = new JsonFileWriter($this->getFullDestinationPath($destination));
@@ -79,7 +86,7 @@ HELP
 
     private function getFullDestinationPath(string $destination): string
     {
-        if (strpos($destination, DIRECTORY_SEPARATOR) === 0 || strpos($destination, '.') === 0) {
+        if (str_starts_with($destination, DIRECTORY_SEPARATOR) || str_starts_with($destination, '.')) {
             return $destination;
         }
 

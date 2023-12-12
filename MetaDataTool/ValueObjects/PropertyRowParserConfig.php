@@ -6,22 +6,11 @@ namespace MetaDataTool\ValueObjects;
 
 class PropertyRowParserConfig
 {
-    /** @var int */
-    private $typeColumnIndex;
-    /** @var int */
-    private $documentationColumnIndex;
-    /** @var int */
-    private $mandatoryColumnIndex;
-
     public function __construct(
-        $typeColumnIndex,
-        $documentationColumnIndex,
-        $mandatoryColumnIndex
-    ) {
-        $this->typeColumnIndex = $typeColumnIndex;
-        $this->documentationColumnIndex = $documentationColumnIndex;
-        $this->mandatoryColumnIndex = $mandatoryColumnIndex;
-    }
+        private int $typeColumnIndex,
+        private int $documentationColumnIndex,
+        private int $mandatoryColumnIndex
+    ) {}
 
     public function getTypeColumnIndex(): int
     {

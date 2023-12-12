@@ -11,22 +11,17 @@ class JsonFileWriter
 {
     private const FILE_NAME = '/meta-data.json';
 
-    /** @var string */
-    private $path;
-
     /**
      * JsonFileWriter constructor.
-     * @param string $path
      */
-    public function __construct(string $path)
+    public function __construct(private string $path)
     {
-        $this->path = $path;
         $this->ensureDirectoryAvailability($path);
     }
 
     public function write(EndpointCollection $endpoints): void
     {
-        file_put_contents($this->getFullFileName(), json_encode($endpoints, JSON_PRETTY_PRINT));
+        file_put_contents($this->getFullFileName(), json_encode($endpoints, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
     }
 
     public function getFullFileName(): string

@@ -20,19 +20,12 @@ class EndpointCrawler
     private const BASE_URL = 'https://start.exactonline.nl/docs/';
     private const ATTRIBUTE_HEADER_XPATH = '//table[@id="referencetable"]/tr[1]';
     private const ATTRIBUTE_ROWS_XPATH = '//table[@id="referencetable"]/tr[position()>1]';
+    private PageRegistry $pagesToVisit;
+    private PageRegistry $visitedPages;
+    private ?Crawler $domCrawler = null;
 
-    /** @var EndpointCrawlerConfig */
-    private $config;
-    /** @var PageRegistry */
-    private $pagesToVisit;
-    /** @var PageRegistry */
-    private $visitedPages;
-    /** @var Crawler */
-    private $domCrawler;
-
-    public function __construct(EndpointCrawlerConfig $config, ?PageRegistry $pagesToVisit = null)
+    public function __construct(private EndpointCrawlerConfig $config, ?PageRegistry $pagesToVisit = null)
     {
-        $this->config = $config;
         $this->pagesToVisit = $pagesToVisit ?? $this->createDefaultPagesToVisit();
         $this->visitedPages = new PageRegistry();
     }
@@ -83,7 +76,7 @@ class EndpointCrawler
         $scope = $this->domCrawler->filterXPath('//*[@id="scope"]')->first()->text();
         try {
             $uri = $this->domCrawler->filterXPath('//*[@id="serviceUri"]')->first()->text();
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             return null;
         }
         $supportedMethodsCrawler = $this->domCrawler->filterXPath('//input[@name="supportedmethods"]');
@@ -107,9 +100,7 @@ class EndpointCrawler
             return null;
         }
 
-        $columns = array_map(static function ($n) {
-            return explode(' ', $n->nodeValue)[0];
-        }, $header->children()->getIterator()->getArrayCopy());
+        $columns = array_map(static fn($n) => explode(' ', $n->nodeValue)[0], $header->children()->getIterator()->getArrayCopy());
 
         $propertyRowParserConfig = new PropertyRowParserConfig(
             array_search('Type', $columns, true) + 1,
@@ -122,7 +113,7 @@ class EndpointCrawler
 
         $goodToKnows = $this->domCrawler->filterXPath('//*[@id="goodToKnow"]');
         $deprecationMessage = 'This endpoint is redundant and is going to be removed.';
-        $isDeprecated = $goodToKnows->count() > 0 && strpos($goodToKnows->first()->text(), $deprecationMessage) !== false;
+        $isDeprecated = $goodToKnows->count() > 0 && str_contains($goodToKnows->first()->text(), $deprecationMessage);
         return new Endpoint(
             $endpoint,
             $url,
@@ -137,7 +128,16 @@ class EndpointCrawler
 
     private function fetchHtmlFromUrl(string $url): string
     {
-        $html = file_get_contents($url);
+        [,$basename] = explode('=', $url);
+        $filename = sys_get_temp_dir() . '/exact-online-meta-data-tool-' . strtolower($basename) . '.html';
+
+        if (!file_exists($filename)) {
+            $html = file_get_contents($url);
+            file_put_contents($filename, $html);
+        } else {
+            $html = file_get_contents($filename);
+        }
+
         $this->visitedPages->add($url);
 
         if ($html === false) {
@@ -166,16 +166,16 @@ class EndpointCrawler
             if ($name === 'ID') {
                 $httpMethods = $httpMethods->addDelete();
             }
-            if (strpos($class, 'hideput') === false && strpos($class, 'showget') === false) {
+            if (!str_contains($class, 'hideput') && !str_contains($class, 'showget')) {
                 $httpMethods = $httpMethods->addPut();
             }
-            if (strpos($class, 'hidepost') === false && strpos($class, 'showget') === false) {
+            if (!str_contains($class, 'hidepost') && !str_contains($class, 'showget')) {
                 $httpMethods = $httpMethods->addPost();
             }
             if ($name === 'ID') {
                 $httpMethods = HttpMethodMask::all();
             }
-            $hidden = strpos($node->attr('class') ?? '', 'hiderow') !== false;
+            $hidden = str_contains($node->attr('class') ?? '', 'hiderow');
             $mandatory = strtolower(trim($node->filterXpath("//td[{$config->getMandatoryColumnIndex()}]")->text())) === 'true';
 
             return new Property($name, $type, $description, $primaryKey, $httpMethods, $hidden, $mandatory);
