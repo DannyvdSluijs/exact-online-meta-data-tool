@@ -109,7 +109,7 @@ class EndpointCrawler
         );
 
         $properties = $this->domCrawler->filterXpath(self::ATTRIBUTE_ROWS_XPATH)
-            ->each($this->getPropertyRowParser($propertyRowParserConfig));
+            ->each($this->getPropertyRowParser($propertyRowParserConfig, $httpMethods));
 
         $goodToKnows = $this->domCrawler->filterXPath('//*[@id="goodToKnow"]');
         $deprecationMessage = 'This endpoint is redundant and is going to be removed.';
@@ -147,9 +147,9 @@ class EndpointCrawler
         return $html;
     }
 
-    private function getPropertyRowParser(PropertyRowParserConfig $config): \Closure
+    private function getPropertyRowParser(PropertyRowParserConfig $config, HttpMethodMask $endpointSupportedMethods): \Closure
     {
-        return function (Crawler $node) use ($config): Property {
+        return function (Crawler $node) use ($config, $endpointSupportedMethods): Property {
             if ($node->filterXpath('//td[2]/a')->count() === 1) {
                 $this->processDiscoveredUrl(self::BASE_URL . $node->filterXpath('//td[2]/a')->attr('href'));
             }
@@ -163,18 +163,16 @@ class EndpointCrawler
 
             $httpMethods = HttpMethodMask::none()->addGet();
             $class = (string) $node->attr('class');
-            if ($name === 'ID') {
+            if ($name === 'ID' && $endpointSupportedMethods->supportsDelete()) {
                 $httpMethods = $httpMethods->addDelete();
             }
-            if (!str_contains($class, 'hideput') && !str_contains($class, 'showget')) {
+            if (!str_contains($class, 'hideput') && !str_contains($class, 'showget')  && $endpointSupportedMethods->supportsPut()) {
                 $httpMethods = $httpMethods->addPut();
             }
-            if (!str_contains($class, 'hidepost') && !str_contains($class, 'showget')) {
+            if (!str_contains($class, 'hidepost') && !str_contains($class, 'showget')  && $endpointSupportedMethods->supportsPost()) {
                 $httpMethods = $httpMethods->addPost();
             }
-            if ($name === 'ID') {
-                $httpMethods = HttpMethodMask::all();
-            }
+
             $hidden = str_contains($node->attr('class') ?? '', 'hiderow');
             $mandatory = strtolower(trim($node->filterXpath("//td[{$config->getMandatoryColumnIndex()}]")->text())) === 'true';
 
