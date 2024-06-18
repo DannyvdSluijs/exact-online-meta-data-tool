@@ -14,7 +14,7 @@
         "php": "^8.0",
         "ext-json": "*",
         "myclabs/php-enum": "^1.8",
-        "symfony/console": "^5.4",
+        "symfony/console": "^7.1",
         "symfony/dom-crawler": "^5.4"
     },
     "require-dev": {
