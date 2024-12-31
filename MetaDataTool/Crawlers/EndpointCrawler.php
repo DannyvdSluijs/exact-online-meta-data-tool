@@ -72,8 +72,8 @@ class EndpointCrawler
         $this->domCrawler->clear();
         $this->domCrawler->add($html);
 
-        $endpoint = $this->domCrawler->filterXPath('//*[@id="endpoint"]')->first()->text();
         try {
+            $endpoint = $this->domCrawler->filterXPath('//*[@id="endpoint"]')->first()->text();
             $scope = $this->domCrawler->filterXPath('//*[@id="scope"]')->first()->text();
             $uri = $this->domCrawler->filterXPath('//*[@id="serviceUri"]')->first()->text();
         } catch (\Exception) {
