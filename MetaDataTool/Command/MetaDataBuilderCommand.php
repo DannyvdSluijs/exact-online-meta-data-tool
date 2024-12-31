@@ -10,6 +10,7 @@ use MetaDataTool\Crawlers\MainPageCrawler;
 use MetaDataTool\Enum\KnownEntities;
 use MetaDataTool\JsonFileWriter;
 use MetaDataTool\ValueObjects\Endpoint;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
@@ -17,10 +18,10 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
+#[AsCommand(name: 'run')]
 class MetaDataBuilderCommand extends Command
 {
-    private const MAIN_PAGE = 'https://start.exactonline.nl/docs/HlpRestAPIResources.aspx';
-    protected static $defaultName = 'run';
+    private const string MAIN_PAGE = 'https://start.exactonline.nl/docs/HlpRestAPIResources.aspx';
 
     protected function configure(): void
     {
@@ -55,8 +56,8 @@ HELP
         $io->info(['Scanning main page', self::MAIN_PAGE]);
         $mainPageCrawler = new MainPageCrawler(self::MAIN_PAGE);
         $pages = $mainPageCrawler->run();
-        foreach (KnownEntities::keys() as $entity) {
-            $pages->add('https://start.exactonline.nl/docs/HlpRestAPIResourcesDetails.aspx?name=' . $entity);
+        foreach (KnownEntities::cases() as $entity) {
+            $pages->add('https://start.exactonline.nl/docs/HlpRestAPIResourcesDetails.aspx?name=' . $entity->value);
         }
 
         $io->info('Scanning entity pages');
