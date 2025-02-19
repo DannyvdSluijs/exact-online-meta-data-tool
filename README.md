@@ -1,4 +1,4 @@
-![Build](https://github.com/DannyvdSluijs/exact-online-meta-data-tool/workflows/Build/badge.svg?branch=master)
+[![Build](https://github.com/DannyvdSluijs/exact-online-meta-data-tool/actions/workflows/build.yaml/badge.svg)](https://github.com/DannyvdSluijs/exact-online-meta-data-tool/actions/workflows/build.yaml)
 [![Coverage Status](https://coveralls.io/repos/github/DannyvdSluijs/exact-online-meta-data-tool/badge.svg?branch=master)](https://coveralls.io/github/DannyvdSluijs/exact-online-meta-data-tool?branch=master)
 
 
