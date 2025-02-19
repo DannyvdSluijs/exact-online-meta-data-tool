@@ -6,13 +6,12 @@ namespace MetaDataTool\Tests\Unit;
 
 use MetaDataTool\Exception\Exception;
 use MetaDataTool\PageRegistry;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
+#[CoversClass(PageRegistry::class)]
 class PageRegistryTest extends TestCase
 {
-    /**
-     * @covers \MetaDataTool\PageRegistry
-     */
     public function testHasPageReturnsFalseWithNewRegistry(): void
     {
         $registry = new PageRegistry();
@@ -20,9 +19,6 @@ class PageRegistryTest extends TestCase
         self::assertFalse($registry->hasPage('www.example.org'));
     }
 
-    /**
-     * @covers \MetaDataTool\PageRegistry
-     */
     public function testHasPageReturnsTrueWithPageAdded(): void
     {
         $page = 'https://www.example.org';
@@ -32,9 +28,6 @@ class PageRegistryTest extends TestCase
         self::assertTrue($registry->hasPage($page));
     }
 
-    /**
-     * @covers \MetaDataTool\PageRegistry
-     */
     public function testHasAnyReturnsFalseWithNewRegistry(): void
     {
         $registry = new PageRegistry();
@@ -42,9 +35,6 @@ class PageRegistryTest extends TestCase
         self::assertFalse($registry->hasAny());
     }
 
-    /**
-     * @covers \MetaDataTool\PageRegistry
-     */
     public function testHasAnyReturnsTrueWithPageAdded(): void
     {
         $page = 'https://www.example.org';
@@ -54,9 +44,6 @@ class PageRegistryTest extends TestCase
         self::assertTrue($registry->hasAny());
     }
 
-    /**
-     * @covers \MetaDataTool\PageRegistry
-     */
     public function testNextReturnsPageWithPageAdded(): void
     {
         $page = 'https://www.example.org';
@@ -66,9 +53,6 @@ class PageRegistryTest extends TestCase
         self::assertEquals($page, $registry->next());
     }
 
-    /**
-     * @covers \MetaDataTool\PageRegistry
-     */
     public function testNextThrowsExceptionWithNewRegistry(): void
     {
         $registry = new PageRegistry();
@@ -77,9 +61,6 @@ class PageRegistryTest extends TestCase
         $registry->next();
     }
 
-    /**
-     * @covers \MetaDataTool\PageRegistry
-     */
     public function testCountReturnsCorrectValue(): void
     {
         $registry = new PageRegistry();
@@ -90,9 +71,6 @@ class PageRegistryTest extends TestCase
         self::assertEquals(3, $registry->count());
     }
 
-    /**
-     * @covers \MetaDataTool\PageRegistry
-     */
     public function testGetIteratorReturnCorrectIterator(): void
     {
         $pages = [

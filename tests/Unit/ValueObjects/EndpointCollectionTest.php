@@ -9,21 +9,17 @@ use MetaDataTool\ValueObjects\Endpoint;
 use MetaDataTool\ValueObjects\EndpointCollection;
 use MetaDataTool\ValueObjects\HttpMethodMask;
 use MetaDataTool\ValueObjects\PropertyCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(EndpointCollection::class)]
 class EndpointCollectionTest extends TestCase
 {
-    /**
-     * @covers \MetaDataTool\ValueObjects\EndpointCollection
-     */
     public function testConstructorIsProtectedAgainstWrongType(): void
     {
         $this->expectException(\TypeError::class);
         new EndpointCollection(new \stdClass());
     }
 
-    /**
-     * @covers \MetaDataTool\ValueObjects\EndpointCollection
-     */
     public function testCanAddEndpointToCollection(): void
     {
         $collection = new EndpointCollection();
@@ -42,17 +38,11 @@ class EndpointCollectionTest extends TestCase
         self::assertContains($endpoint, $collection);
     }
 
-    /**
-     * @covers \MetaDataTool\ValueObjects\EndpointCollection
-     */
     public function testObjectIsIterable(): void
     {
         self::assertIsIterable(new EndpointCollection());
     }
 
-    /**
-     * @covers \MetaDataTool\ValueObjects\EndpointCollection
-     */
     public function testCollectionCanBeCorrectlySerialised(): void
     {
         $endpoint = new Endpoint(
@@ -73,9 +63,6 @@ class EndpointCollectionTest extends TestCase
         );
     }
 
-    /**
-     * @covers \MetaDataTool\ValueObjects\EndpointCollection
-     */
     public function testCollectionCanBeCorrectlyDeserialised(): void
     {
         $json = (string) json_encode(new EndpointCollection(new Endpoint(

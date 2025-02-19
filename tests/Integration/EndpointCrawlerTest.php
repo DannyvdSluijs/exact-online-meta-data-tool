@@ -9,13 +9,12 @@ use MetaDataTool\Crawlers\EndpointCrawler;
 use MetaDataTool\PageRegistry;
 use MetaDataTool\ValueObjects\Endpoint;
 use MetaDataTool\ValueObjects\Property;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
+#[CoversClass(EndpointCrawler::class)]
 class EndpointCrawlerTest extends TestCase
 {
-    /**
-     * @covers \MetaDataTool\Crawlers\EndpointCrawler
-     */
     public function testItCanParseCrmAccountPage(): void
     {
         $config = new EndpointCrawlerConfig(false);
@@ -41,9 +40,6 @@ class EndpointCrawlerTest extends TestCase
         self::assertContains('BSN', $propertyNames);
     }
 
-    /**
-     * @covers \MetaDataTool\Crawlers\EndpointCrawler
-     */
     public function testItCanDetectHiddenIsSerialNumberProperty(): void
     {
         $config = new EndpointCrawlerConfig(false);
@@ -65,9 +61,6 @@ class EndpointCrawlerTest extends TestCase
         self::assertTrue($isSerialNumberProperty->isHidden());
     }
 
-    /**
-     * @covers \MetaDataTool\Crawlers\EndpointCrawler
-     */
     public function testInvokesCallbackOnEndpointDiscovery(): void
     {
         $documentation = 'https://start.exactonline.nl/docs/HlpRestAPIResourcesDetails.aspx?name=LogisticsItems';

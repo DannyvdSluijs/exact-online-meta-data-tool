@@ -6,12 +6,11 @@ namespace MetaDataTool\Tests\Unit;
 
 use MetaDataTool\JsonFileWriter;
 use MetaDataTool\ValueObjects\EndpointCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(JsonFileWriter::class)]
 class JsonFileWriterTest extends TestCase
 {
-    /**
-     * @covers \MetaDataTool\JsonFileWriter
-     */
     public function testCanWriteToAnExistingDirectory(): void
     {
         $writer = new JsonFileWriter(sys_get_temp_dir());
@@ -20,9 +19,6 @@ class JsonFileWriterTest extends TestCase
         $this->assertFileExists(sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'meta-data.json');
     }
 
-    /**
-     * @covers \MetaDataTool\JsonFileWriter
-     */
     public function testCanWriteToNewDirectory(): void
     {
         $subDir = $this->faker()->domainWord;
@@ -34,9 +30,6 @@ class JsonFileWriterTest extends TestCase
         );
     }
 
-    /**
-     * @covers \MetaDataTool\JsonFileWriter
-     */
     public function testThrowsExceptionOnUncreatableDirectory(): void
     {
         $this->expectException(\RuntimeException::class);

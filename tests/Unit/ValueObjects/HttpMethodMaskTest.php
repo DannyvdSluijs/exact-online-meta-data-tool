@@ -6,12 +6,11 @@ namespace MetaDataTool\Tests\Unit\ValueObjects;
 
 use MetaDataTool\Tests\Unit\TestCase;
 use MetaDataTool\ValueObjects\HttpMethodMask;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(HttpMethodMask::class)]
 class HttpMethodMaskTest extends TestCase
 {
-    /**
-     * @covers \MetaDataTool\ValueObjects\HttpMethodMask
-     */
     public function testNamedConstructorAllSupportsAll(): void
     {
         $methods = HttpMethodMask::all();
@@ -22,9 +21,6 @@ class HttpMethodMaskTest extends TestCase
         $this->assertTrue($methods->supportsDelete());
     }
 
-    /**
-     * @covers \MetaDataTool\ValueObjects\HttpMethodMask
-     */
     public function testNamedConstructorNoneSupportsNone(): void
     {
         $methods = HttpMethodMask::none();
@@ -35,9 +31,6 @@ class HttpMethodMaskTest extends TestCase
         $this->assertFalse($methods->supportsDelete());
     }
 
-    /**
-     * @covers \MetaDataTool\ValueObjects\HttpMethodMask
-     */
     public function testAddGetReturnsMethodAsSupported(): void
     {
         $methods = HttpMethodMask::none()->addGet();
@@ -45,9 +38,6 @@ class HttpMethodMaskTest extends TestCase
         $this->assertTrue($methods->supportsGet());
     }
 
-    /**
-     * @covers \MetaDataTool\ValueObjects\HttpMethodMask
-     */
     public function testAddPostReturnsMethodAsSupported(): void
     {
         $methods = HttpMethodMask::none()->addPost();
@@ -55,9 +45,6 @@ class HttpMethodMaskTest extends TestCase
         $this->assertTrue($methods->supportsPost());
     }
 
-    /**
-     * @covers \MetaDataTool\ValueObjects\HttpMethodMask
-     */
     public function testAddPutReturnsMethodAsSupported(): void
     {
         $methods = HttpMethodMask::none()->addPut();
@@ -65,9 +52,6 @@ class HttpMethodMaskTest extends TestCase
         $this->assertTrue($methods->supportsPut());
     }
 
-    /**
-     * @covers \MetaDataTool\ValueObjects\HttpMethodMask
-     */
     public function testAddDeleteReturnsMethodAsSupported(): void
     {
         $methods = HttpMethodMask::none()->addDelete();
@@ -75,9 +59,6 @@ class HttpMethodMaskTest extends TestCase
         $this->assertTrue($methods->supportsDelete());
     }
 
-    /**
-     * @covers \MetaDataTool\ValueObjects\HttpMethodMask
-     */
     public function testPropertyCanBeCorrectlySerialised(): void
     {
         $methods = HttpMethodMask::all();
@@ -93,9 +74,6 @@ class HttpMethodMaskTest extends TestCase
         );
     }
 
-    /**
-     * @covers \MetaDataTool\ValueObjects\HttpMethodMask
-     */
     public function testPropertyCanBeCorrectlyDeserialised(): void
     {
         $json = (string) json_encode(HttpMethodMask::all(), JSON_THROW_ON_ERROR);
