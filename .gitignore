@@ -3,4 +3,5 @@
 /.idea/
 /meta-data.json
 /.phpunit.result.cache
+/.phpunit.cache/
 /composer.lock
