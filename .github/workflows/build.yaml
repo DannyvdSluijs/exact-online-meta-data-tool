@@ -32,7 +32,7 @@ jobs:
             php_ini: 'xdebug.coverage_enable=On'
             name: 'PHP 8.3 with lowest stable deps'
           - php: 8.4
-            allow_fail: true
+            allow_fail: false
             php_ini: 'xdebug.coverage_enable=On'
             name: 'PHP 8.4 with latest deps'
           - php: 8.4
