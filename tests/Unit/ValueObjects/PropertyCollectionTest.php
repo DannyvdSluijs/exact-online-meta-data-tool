@@ -8,29 +8,22 @@ use MetaDataTool\Tests\Unit\TestCase;
 use MetaDataTool\ValueObjects\HttpMethodMask;
 use MetaDataTool\ValueObjects\Property;
 use MetaDataTool\ValueObjects\PropertyCollection;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(PropertyCollection::class)]
 class PropertyCollectionTest extends TestCase
 {
-    /**
-     * @covers \MetaDataTool\ValueObjects\PropertyCollection
-     */
     public function testConstructorIsProtectedAgainstWrongType(): void
     {
         $this->expectException(\TypeError::class);
         new PropertyCollection(new \stdClass());
     }
 
-    /**
-     * @covers \MetaDataTool\ValueObjects\PropertyCollection
-     */
     public function testObjectIsIterable(): void
     {
         self::assertIsIterable(new PropertyCollection());
     }
 
-    /**
-     * @covers \MetaDataTool\ValueObjects\PropertyCollection
-     */
     public function testCollectionCanBeCorrectlySerialised(): void
     {
         $property = new Property(
@@ -50,9 +43,6 @@ class PropertyCollectionTest extends TestCase
         );
     }
 
-    /**
-     * @covers \MetaDataTool\ValueObjects\PropertyCollection
-     */
     public function testCollectionCanBeCorrectlyDeserialised(): void
     {
         $json = (string) json_encode(new PropertyCollection(new Property(
@@ -79,10 +69,7 @@ class PropertyCollectionTest extends TestCase
         );
     }
 
-    /**
-     * @covers \MetaDataTool\ValueObjects\PropertyCollection
-     */
-    public function testCollectionReturnsCorectIterator(): void
+    public function testCollectionReturnsCorrectIterator(): void
     {
         $propertyOne = new Property(
             $this->faker()->name,

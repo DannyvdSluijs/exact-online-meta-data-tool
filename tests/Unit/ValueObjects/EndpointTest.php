@@ -8,12 +8,11 @@ use MetaDataTool\ValueObjects\Endpoint;
 use MetaDataTool\ValueObjects\HttpMethodMask;
 use MetaDataTool\ValueObjects\PropertyCollection;
 use MetaDataTool\Tests\Unit\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(Endpoint::class)]
 class EndpointTest extends TestCase
 {
-    /**
-     * @covers \MetaDataTool\ValueObjects\Endpoint
-     */
     public function testValueObjectHoldsAttributes(): void
     {
         $endpoint = new Endpoint(
@@ -37,9 +36,6 @@ class EndpointTest extends TestCase
         self::assertEquals($deprecated, $endpoint->isDeprecated());
     }
 
-    /**
-     * @covers \MetaDataTool\ValueObjects\Endpoint
-     */
     public function testPropertyCanBeCorrectlySerialised(): void
     {
         $endpoint = new Endpoint(
@@ -68,9 +64,6 @@ class EndpointTest extends TestCase
         );
     }
 
-    /**
-     * @covers \MetaDataTool\ValueObjects\Endpoint
-     */
     public function testPropertyCanBeCorrectlyDeserialised(): void
     {
         $json = (string) json_encode(new Endpoint(

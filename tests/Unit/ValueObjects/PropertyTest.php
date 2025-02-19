@@ -7,12 +7,11 @@ namespace MetaDataTool\Tests\Unit\ValueObjects;
 use MetaDataTool\ValueObjects\HttpMethodMask;
 use MetaDataTool\ValueObjects\Property;
 use MetaDataTool\Tests\Unit\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(Property::class)]
 class PropertyTest extends TestCase
 {
-    /**
-     * @covers \MetaDataTool\ValueObjects\Property
-     */
     public function testValueObjectHoldsAttributes(): void
     {
         $property = new Property(
@@ -34,9 +33,6 @@ class PropertyTest extends TestCase
         self::assertTrue($property->isMandatory());
     }
 
-    /**
-     * @covers \MetaDataTool\ValueObjects\Property
-     */
     public function testPropertyCanBeCorrectlySerialised(): void
     {
         $property = new Property(
@@ -63,9 +59,6 @@ class PropertyTest extends TestCase
         );
     }
 
-    /**
-     * @covers \MetaDataTool\ValueObjects\Property
-     */
     public function testPropertyCanBeCorrectlyDeserialised(): void
     {
         $json = (string) json_encode(new Property(

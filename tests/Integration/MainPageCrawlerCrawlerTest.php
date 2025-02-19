@@ -11,13 +11,12 @@ use MetaDataTool\DocumentationCrawler;
 use MetaDataTool\PageRegistry;
 use MetaDataTool\ValueObjects\Endpoint;
 use MetaDataTool\ValueObjects\Property;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
+#[CoversClass(MainPageCrawler::class)]
 class MainPageCrawlerCrawlerTest extends TestCase
 {
-    /**
-     * @covers \MetaDataTool\Crawlers\MainPageCrawler
-     */
     public function testitCanCrawlMainPage(): void
     {
         $crawler = new MainPageCrawler('https://start.exactonline.nl/docs/HlpRestAPIResources.aspx');
@@ -27,6 +26,5 @@ class MainPageCrawlerCrawlerTest extends TestCase
         self::assertTrue($result->hasAny());
         $next = $result->next();
         self::assertStringStartsWith('https://start.exactonline.nl/docs', $next);
-
     }
 }

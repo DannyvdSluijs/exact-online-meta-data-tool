@@ -6,12 +6,11 @@ namespace MetaDataTool\Tests\Unit\ValueObjects;
 
 use MetaDataTool\Tests\Unit\TestCase;
 use MetaDataTool\ValueObjects\PropertyRowParserConfig;
+use PHPUnit\Framework\Attributes\CoversClass;
 
+#[CoversClass(PropertyRowParserConfig::class)]
 class PropertyRowParserConfigTest extends TestCase
 {
-    /**
-     * @covers \MetaDataTool\ValueObjects\PropertyRowParserConfig
-     */
     public function testValueObjectHoldsAttributes(): void
     {
         $config = new PropertyRowParserConfig(
